@@ -12,7 +12,7 @@ public partial class PlayerMovement : CharacterBody2D
     public float RotationSpeed { get; set; } = 50f;
 
     private Vector2 _velocity = Vector2.Zero;
-    private const float RotationTreshold = 50f;
+    private const float RotationThreshold = 50f;
     private Camera2D _camera;
 
     public void GetInput(float delta)
@@ -32,7 +32,7 @@ public partial class PlayerMovement : CharacterBody2D
         Velocity = _velocity;
 
         // Rotate ship in towards moving direction
-        if (_velocity.Length() > RotationTreshold)
+        if (_velocity.Length() > RotationThreshold)
         {
             float targetRotation = _velocity.Angle();
             Rotation = Mathf.LerpAngle(Rotation, targetRotation, RotationSpeed * (float)delta);

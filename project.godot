@@ -15,6 +15,10 @@ run/main_scene="res://Space.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GlobalData="*res://GlobalData.cs"
+
 [dotnet]
 
 project/assembly_name="gmtk2024"

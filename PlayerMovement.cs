@@ -13,6 +13,7 @@ public partial class PlayerMovement : CharacterBody2D
 
     private Vector2 _velocity = Vector2.Zero;
     private const float RotationTreshold = 50f;
+    private Camera2D _camera;
 
     public void GetInput(float delta)
     {
@@ -42,5 +43,6 @@ public partial class PlayerMovement : CharacterBody2D
     {
         GetInput((float)delta);
         MoveAndSlide();
+        // MoveAndCollide(Velocity * (float)delta);
     }
 }

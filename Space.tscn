@@ -1,15 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=6 format=3 uid="uid://bn3y3rftofn8r"]
 
 [ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
-[ext_resource type="Script" path="res://PlayerMovement.cs" id="2_sk5wh"]
-[ext_resource type="Script" path="res://Asteroid.cs" id="3_8ix55"]
-[ext_resource type="Texture2D" uid="uid://3ounbgnsyuxc" path="res://resources/Asteroid.png" id="4_xrcw8"]
+[ext_resource type="Script" path="res://Player.cs" id="2_sk5wh"]
+[ext_resource type="PackedScene" uid="uid://parwfjqekase" path="res://asteroid.tscn" id="3_jh5ql"]
+[ext_resource type="Script" path="res://HUD.cs" id="3_jux3f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ku01d"]
 size = Vector2(109, 44)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_5ij86"]
-radius = 70.1783
 
 [node name="Node2D" type="Node2D"]
 
@@ -26,6 +23,11 @@ rotation = -1.5708
 script = ExtResource("2_sk5wh")
 RotationSpeed = 5.0
 
+[node name="HUD" type="CanvasLayer" parent="Player"]
+script = ExtResource("3_jux3f")
+
+[node name="Hearts" type="Node2D" parent="Player/HUD"]
+
 [node name="Polygon2D" type="Polygon2D" parent="Player"]
 polygon = PackedVector2Array(-53, 21, 53, 0, -53, -21)
 
@@ -35,14 +37,11 @@ shape = SubResource("RectangleShape2D_ku01d")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
-[node name="Asteroid" type="RigidBody2D" parent="." groups=["Asteroids"]]
-position = Vector2(155, 150)
-collision_mask = 0
-gravity_scale = 0.0
-script = ExtResource("3_8ix55")
+[node name="Asteroid2" parent="." instance=ExtResource("3_jh5ql")]
+position = Vector2(361, 171)
 
-[node name="Sprite2D" type="Sprite2D" parent="Asteroid"]
-texture = ExtResource("4_xrcw8")
+[node name="Asteroid3" parent="." instance=ExtResource("3_jh5ql")]
+position = Vector2(887, 325)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Asteroid"]
-shape = SubResource("CircleShape2D_5ij86")
+[node name="Asteroid" parent="." instance=ExtResource("3_jh5ql")]
+position = Vector2(231, 276)

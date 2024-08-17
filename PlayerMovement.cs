@@ -42,7 +42,15 @@ public partial class PlayerMovement : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         GetInput((float)delta);
-        MoveAndSlide();
-        // MoveAndCollide(Velocity * (float)delta);
+        var collision = MoveAndCollide(Velocity * (float)delta);
+        
+        if(collision != null)
+        {
+            Node collidedObject = collision.GetCollider() as Node;
+            if(collidedObject.IsInGroup("Asteroids"))
+            {
+                ((Asteroid)collidedObject)?.EmitSignal(Asteroid.SignalName.PlayerCollision);
+            }
+        }
     }
 }

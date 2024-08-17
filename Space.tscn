@@ -1,10 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=7 format=3 uid="uid://bn3y3rftofn8r"]
 
-[ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="2_hkfje"]
-[ext_resource type="Script" path="res://PlayerMovement.cs" id="2_itt03"]
+[ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
+[ext_resource type="Script" path="res://PlayerMovement.cs" id="2_sk5wh"]
+[ext_resource type="Script" path="res://Asteroid.cs" id="3_8ix55"]
+[ext_resource type="Texture2D" uid="uid://3ounbgnsyuxc" path="res://resources/Asteroid.png" id="4_xrcw8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ku01d"]
 size = Vector2(109, 44)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5ij86"]
+radius = 70.1783
 
 [node name="Node2D" type="Node2D"]
 
@@ -12,20 +17,32 @@ size = Vector2(109, 44)
 repeat_size = Vector2(2048, 1536)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
-texture = ExtResource("2_hkfje")
+texture = ExtResource("1_cajvu")
 centered = false
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(578, 325)
 rotation = -1.5708
-script = ExtResource("2_itt03")
+script = ExtResource("2_sk5wh")
 RotationSpeed = 5.0
 
-[node name="Polygon2D" type="Polygon2D" parent="CharacterBody2D"]
+[node name="Polygon2D" type="Polygon2D" parent="Player"]
 polygon = PackedVector2Array(-53, 21, 53, 0, -53, -21)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_ku01d")
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="Asteroid" type="RigidBody2D" parent="." groups=["Asteroids"]]
+position = Vector2(155, 150)
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("3_8ix55")
+
+[node name="Sprite2D" type="Sprite2D" parent="Asteroid"]
+texture = ExtResource("4_xrcw8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Asteroid"]
+shape = SubResource("CircleShape2D_5ij86")

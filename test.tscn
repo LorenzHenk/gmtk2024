@@ -1,33 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=3 format=3 uid="uid://bn3y3rftofn8r"]
 
-[ext_resource type="Script" path="res://Node2d.cs" id="1_mr2k1"]
-[ext_resource type="Texture2D" uid="uid://bgl5kiwcqsvyh" path="res://icon.svg" id="2_eia4i"]
 [ext_resource type="Script" path="res://PlayerMovement.cs" id="2_itt03"]
 
-[sub_resource type="Gradient" id="Gradient_laayw"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ll0dv"]
-gradient = SubResource("Gradient_laayw")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8bg31"]
-size = Vector2(120, 120)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ku01d"]
+size = Vector2(109, 44)
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(311, 232)
-script = ExtResource("1_mr2k1")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(283, 39.0001)
-scale = Vector2(12.2227, 6.8711)
-texture = SubResource("GradientTexture2D_ll0dv")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(45, 7)
 script = ExtResource("2_itt03")
+RotationSpeed = 5.0
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-texture = ExtResource("2_eia4i")
+[node name="Polygon2D" type="Polygon2D" parent="CharacterBody2D"]
+polygon = PackedVector2Array(-53, 21, 53, 0, -53, -21)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-shape = SubResource("RectangleShape2D_8bg31")
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_ku01d")

@@ -17,6 +17,7 @@ centered = false
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(578, 325)
+rotation = -1.5708
 script = ExtResource("2_itt03")
 RotationSpeed = 5.0
 

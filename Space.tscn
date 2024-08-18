@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=16 format=3 uid="uid://bn3y3rftofn8r"]
 
 [ext_resource type="Script" path="res://Space.cs" id="1_02qky"]
 [ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Spawner.cs" id="4_nj4ko"]
 [ext_resource type="Texture2D" uid="uid://bblp5b63d0of3" path="res://resources/burst/fireball1.png" id="5_cw3w6"]
 [ext_resource type="PackedScene" uid="uid://clvtm2qmcdcy5" path="res://Asteroid.tscn" id="5_e8a5e"]
+[ext_resource type="Texture2D" uid="uid://n6cfflxxj6ha" path="res://resources/resource.png" id="5_r21ef"]
 [ext_resource type="PackedScene" uid="uid://bscofg6xc02d7" path="res://Resource.tscn" id="6_1m7ua"]
 [ext_resource type="Texture2D" uid="uid://s3pffh8p6a7d" path="res://resources/burst/fireball2.png" id="6_itfqs"]
 [ext_resource type="AudioStream" uid="uid://bni2now5ew76k" path="res://resources/thruster.wav" id="7_xc3pe"]
@@ -86,6 +87,10 @@ offset_top = 64.0
 offset_right = 1152.0
 offset_bottom = 89.0
 text = "Resources: 100000"
+
+[node name="Sprite2D" type="Sprite2D" parent="Player/HUD"]
+position = Vector2(983, 76.5)
+texture = ExtResource("5_r21ef")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 0)

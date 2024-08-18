@@ -46,7 +46,7 @@ position = Vector2(578, 325)
 rotation = -1.5708
 script = ExtResource("2_sk5wh")
 RotationSpeed = 5.0
-thrusterSound = NodePath("../AudioStreamPlayer")
+thrusterSound = NodePath("AudioStreamPlayer")
 
 [node name="HUD" type="CanvasLayer" parent="Player"]
 script = ExtResource("3_jux3f")
@@ -86,7 +86,7 @@ scale = Vector2(3.5, 3.5)
 sprite_frames = SubResource("SpriteFrames_wxs6c")
 animation = &"burst"
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player"]
 stream = ExtResource("7_xc3pe")
 volume_db = -15.0
 

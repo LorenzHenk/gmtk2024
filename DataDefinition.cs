@@ -1,4 +1,7 @@
-public partial class TurretConfig : Godot.GodotObject
+using Godot;
+using Godot.Collections;
+
+public partial class TurretConfig : GodotObject
 {
 
     public string Name;
@@ -17,7 +20,7 @@ public partial class TurretConfig : Godot.GodotObject
     }
 }
 
-public partial class EnemyConfig : Godot.GodotObject
+public partial class EnemyConfig : GodotObject
 {
 
     public string Name;
@@ -31,5 +34,37 @@ public partial class EnemyConfig : Godot.GodotObject
         this.StartHP = StartHP;
         this.DamageDealingToBase = DamageDealingToBase;
         this.Speed = Speed;
+    }
+}
+
+
+public partial class WaveUnitConfig : GodotObject
+{
+
+
+    public string EnemyName;
+    public float secondsDelayAfterEnemySpawning;
+
+    public WaveUnitConfig(string EnemyName, float secondsDelayAfterEnemySpawning)
+    {
+        this.EnemyName = EnemyName;
+        this.secondsDelayAfterEnemySpawning = secondsDelayAfterEnemySpawning;
+    }
+}
+
+
+
+public partial class WaveConfig : GodotObject
+{
+
+    public int WaveNumber;
+    public int SecondsUntilWaveStarts;
+    public Array<WaveUnitConfig> waveUnits;
+
+    public WaveConfig(int WaveNumber, int SecondsUntilWaveStarts, Array<WaveUnitConfig> waveUnits)
+    {
+        this.WaveNumber = WaveNumber;
+        this.SecondsUntilWaveStarts = SecondsUntilWaveStarts;
+        this.waveUnits = waveUnits;
     }
 }

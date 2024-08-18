@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Threading.Tasks;
 
 public partial class GlobalData : Node
 {
@@ -8,12 +9,14 @@ public partial class GlobalData : Node
 
 	public int Resources { get; private set; } = 1000;
 
-	public int SpaceGoal {get; private set;} = 100; // in chunks (* 1000)
+	public int SpaceGoal { get; private set; } = 100; // in chunks (* 1000)
 
 	public int CurrentWave
 	{
 		get; private set;
-	}
+	} = 0;
+
+	public bool WaveIsActive = false;
 
 	public int HP
 	{
@@ -24,10 +27,16 @@ public partial class GlobalData : Node
 	public Dictionary<string, TurretConfig> TOWER_INFO;
 	public Dictionary<string, EnemyConfig> ENEMY_INFO;
 
-	// store all towers, positions and upgrades
-	private Dictionary<Vector2, string> towerData;
+	public Dictionary<int, WaveConfig> WAVE_INFO;
 
-	public Dictionary<Vector2, string> TowerData { get { return towerData; } }
+
+
+	// store all towers, positions and upgrades
+	private Dictionary<Vector2I, string> towerData;
+
+	public Dictionary<Vector2I, string> TowerData { get { return towerData; } }
+
+	private Timer NextWaveTimer;
 
 	// TODO store all upgrades
 
@@ -42,6 +51,13 @@ public partial class GlobalData : Node
 
 		ENEMY_INFO = new();
 		ENEMY_INFO["Simp"] = new EnemyConfig("Simp", 2, 1, 250);
+
+		WAVE_INFO = new();
+		var waveInfo1Units = new Array<WaveUnitConfig>();
+		waveInfo1Units.Add(new WaveUnitConfig("Simp", 0.5f));
+		waveInfo1Units.Add(new WaveUnitConfig("Simp", 1));
+		waveInfo1Units.Add(new WaveUnitConfig("Simp", 0));
+		WAVE_INFO[1] = new WaveConfig(1, 5, waveInfo1Units);
 
 	}
 
@@ -85,12 +101,12 @@ public partial class GlobalData : Node
 		}
 	}
 
-	public void AddTower(string towerName, Vector2 cellLocation)
+	public void AddTower(string towerName, Vector2I cellLocation)
 	{
 		TowerData.Add(cellLocation, towerName);
 	}
 
-	public void RemoveTower(Vector2 cellLocation)
+	public void RemoveTower(Vector2I cellLocation)
 	{
 
 		const float SELL_RATIO = 0.5f;
@@ -98,5 +114,58 @@ public partial class GlobalData : Node
 		var type = TowerData[cellLocation];
 		TowerData.Remove(cellLocation);
 		Resources += (int)(TOWER_INFO[type].Price * SELL_RATIO);
+	}
+
+	public void StartGame()
+	{
+
+		NextWaveTimer = new Timer() { OneShot = true, WaitTime = 1, Autostart = false };
+		NextWaveTimer.Timeout += StartWave;
+
+		AddChild(NextWaveTimer);
+
+		StartWaveTimer();
+
+	}
+
+	public void StartWaveTimer()
+	{
+		CurrentWave++;
+
+		GD.Print("Current wave: " + CurrentWave);
+		var hasWave = WAVE_INFO.ContainsKey(CurrentWave);
+
+		if (!hasWave)
+		{
+			GD.Print("you... won?");
+			return;
+		}
+
+		var waveInfo = WAVE_INFO[CurrentWave];
+
+		NextWaveTimer.WaitTime = waveInfo.SecondsUntilWaveStarts;
+
+
+		NextWaveTimer.Start();
+	}
+
+	public async void StartWave()
+	{
+		WaveIsActive = true;
+
+		var waveInfo = WAVE_INFO[CurrentWave];
+
+		foreach (var unit in waveInfo.waveUnits)
+		{
+			// TODO trigger unit spawn
+			GD.Print(unit.EnemyName);
+
+			await Task.Delay((int)(unit.secondsDelayAfterEnemySpawning * 1000));
+		}
+	}
+
+	public int GetSecondsLeftUntilNextWave()
+	{
+		return (int)NextWaveTimer.TimeLeft;
 	}
 }

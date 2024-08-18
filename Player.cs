@@ -28,10 +28,10 @@ public partial class Player : CharacterBody2D
     private Timer damageTimer;
     private AnimatedSprite2D burst;
     private bool soundPlaying = false;
-    private RichTextLabel DistanceLabel;
+    private Label DistanceLabel;
     private ProgressBar DistanceProgressBar;
     private int startDistanceY;
-    private RichTextLabel ResourceLabel;
+    private Label ResourceLabel;
 
     public override void _Ready()
     {
@@ -49,12 +49,12 @@ public partial class Player : CharacterBody2D
 
         burst = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-        DistanceLabel = GetNode<RichTextLabel>("HUD/DistanceLabel");
+        DistanceLabel = GetNode<Label>("HUD/HB/DistanceLabel");
 
         DistanceProgressBar = GetNode<ProgressBar>("./HUD/ProgressBar");
         DistanceProgressBar.MaxValue = goal;
 
-        ResourceLabel = GetNode<RichTextLabel>("HUD/ResourceLabel");
+        ResourceLabel = GetNode<Label>("HUD/HB/Res/ResourceLabel");
 
         startDistanceY = (int)GlobalPosition.Y;
     }
@@ -81,7 +81,7 @@ public partial class Player : CharacterBody2D
 
         GetInput((float)delta);
         var collision = MoveAndCollide(Velocity * (float)delta);
-        if(Position.Y > 500)
+        if (Position.Y > 500)
         {
             Position = new Vector2(Position.X, 500);
         }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=16 format=3 uid="uid://bamvotw3aesl7"]
 
 [ext_resource type="Script" path="res://Space.cs" id="1_02qky"]
 [ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bblp5b63d0of3" path="res://resources/burst/fireball1.png" id="5_cw3w6"]
 [ext_resource type="PackedScene" uid="uid://clvtm2qmcdcy5" path="res://Asteroid.tscn" id="5_e8a5e"]
 [ext_resource type="Texture2D" uid="uid://n6cfflxxj6ha" path="res://resources/resource.png" id="5_r21ef"]
-[ext_resource type="PackedScene" uid="uid://bscofg6xc02d7" path="res://Resource.tscn" id="6_1m7ua"]
+[ext_resource type="PackedScene" path="res://Resource.tscn" id="6_1m7ua"]
 [ext_resource type="Texture2D" uid="uid://s3pffh8p6a7d" path="res://resources/burst/fireball2.png" id="6_itfqs"]
 [ext_resource type="AudioStream" uid="uid://bni2now5ew76k" path="res://resources/thruster.wav" id="7_xc3pe"]
 [ext_resource type="AudioStream" uid="uid://b4njvclhur08d" path="res://resources/main_theme.wav" id="11_x516m"]
@@ -52,8 +52,6 @@ thrusterSound = NodePath("AudioStreamPlayer")
 [node name="HUD" type="CanvasLayer" parent="Player"]
 script = ExtResource("3_jux3f")
 
-[node name="Hearts" type="Node2D" parent="Player/HUD"]
-
 [node name="LandButton" type="Button" parent="Player/HUD"]
 offset_left = 352.0
 offset_top = 571.0
@@ -61,14 +59,6 @@ offset_right = 835.0
 offset_bottom = 626.0
 theme_override_font_sizes/font_size = 40
 text = "LAND AT BASE"
-
-[node name="DistanceLabel" type="RichTextLabel" parent="Player/HUD"]
-offset_left = 32.0
-offset_top = 64.0
-offset_right = 182.0
-offset_bottom = 89.0
-text = "Distance: 10000"
-autowrap_mode = 0
 
 [node name="ProgressBar" type="ProgressBar" parent="Player/HUD"]
 modulate = Color(0.25098, 0.878431, 0.25098, 1)
@@ -81,16 +71,40 @@ step = 1.0
 value = 50.0
 show_percentage = false
 
-[node name="ResourceLabel" type="RichTextLabel" parent="Player/HUD"]
-offset_left = 1002.0
-offset_top = 64.0
-offset_right = 1152.0
-offset_bottom = 89.0
+[node name="HB" type="HBoxContainer" parent="Player/HUD"]
+custom_minimum_size = Vector2(0, 50)
+offset_right = 1150.0
+offset_bottom = 54.0
+theme_override_constants/separation = 16
+
+[node name="Hearts" type="Node2D" parent="Player/HUD/HB"]
+
+[node name="Spacer" type="CenterContainer" parent="Player/HUD/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TimeUntilNextWaveLabel" type="Label" parent="Player/HUD/HB"]
+layout_mode = 2
+text = "X seconds until next wave"
+
+[node name="DistanceLabel" type="Label" parent="Player/HUD/HB"]
+layout_mode = 2
+text = "Distance: 10000"
+
+[node name="Res" type="HBoxContainer" parent="Player/HUD/HB"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+alignment = 2
+
+[node name="ResourceLabel" type="Label" parent="Player/HUD/HB/Res"]
+layout_mode = 2
 text = "Resources: 100000"
 
-[node name="Sprite2D" type="Sprite2D" parent="Player/HUD"]
-position = Vector2(983, 76.5)
+[node name="TextureRect" type="TextureRect" parent="Player/HUD/HB/Res"]
+layout_mode = 2
+size_flags_vertical = 4
 texture = ExtResource("5_r21ef")
+stretch_mode = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 0)

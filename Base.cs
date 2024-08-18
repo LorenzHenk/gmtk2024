@@ -20,7 +20,8 @@ public partial class Base : Node2D
 		var turretBuy = GetNode<BuyTower>("UI/HUD/BuildTowers/BasicTurret");
 		turretBuy.baseInstance = this;
 
-		// TODO load data from GlobalData.Instance.TowerData
+		// load data from GlobalData.Instance.TowerData
+		InitializeTowers();
 
 
 		// attach scene-handler to liftoff button
@@ -44,6 +45,14 @@ public partial class Base : Node2D
 		if (IsInBuildMode)
 		{
 			UpdateTowerPlacementPreview();
+		}
+
+		var hasChildren = GetNode<Path2D>("Path2D").GetChildCount() > 0;
+
+		var liftoffButton = GetNodeOrNull<Button>("UI/HUD/LiftoffButton");
+		if (liftoffButton != null)
+		{
+			liftoffButton.Visible = hasChildren;
 		}
 	}
 
@@ -207,6 +216,27 @@ public partial class Base : Node2D
 		IsInBuildMode = false;
 
 		GetNode("UI/TowerPreview").QueueFree();
+
+
+	}
+
+	private void InitializeTowers()
+	{
+		foreach (var item in GlobalData.Instance.TowerData)
+		{
+
+
+			var towerScene = GD.Load<PackedScene>("res://base/towers/" + item.Value + ".tscn");
+			var tower = towerScene.Instantiate<BasicTurret>();
+
+			var tilePosition = ToGlobal(tileMap.MapToLocal(item.Key));
+
+			GetNode("Towers").AddChild(tower);
+
+			tower.Position = tilePosition;
+			tower.built = true;
+			tower.tileLocation = item.Key;
+		}
 
 
 	}

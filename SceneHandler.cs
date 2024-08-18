@@ -25,6 +25,7 @@ public partial class SceneHandler : Node
 
 		var gameScene = GD.Load<PackedScene>("res://Space.tscn").Instantiate();
 		AddChild(gameScene);
+		GlobalData.Instance.StartGame();
 	}
 
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://5p68vch7sccg"]
+[gd_scene load_steps=6 format=3 uid="uid://5p68vch7sccg"]
 
 [ext_resource type="Texture2D" uid="uid://cp83gxfkd7j5r" path="res://resources/base/towers/basic_turret.png" id="1_f6xyw"]
 [ext_resource type="Script" path="res://base/towers/BasicTurret.cs" id="1_kbele"]
+[ext_resource type="Texture2D" uid="uid://b1a6cwm6gvfd3" path="res://resources/muzzle_flash.png" id="3_y1bqv"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4bo48"]
 
@@ -20,6 +21,12 @@ texture = ExtResource("1_f6xyw")
 
 [node name="Node2D" type="Node2D" parent="TurretSprite"]
 position = Vector2(31, 0)
+
+[node name="MuzzleFlashSprite" type="Sprite2D" parent="TurretSprite/Node2D"]
+visible = false
+position = Vector2(17.75, -0.5)
+scale = Vector2(2.72222, 2.75)
+texture = ExtResource("3_y1bqv")
 
 [node name="Area2D" type="Area2D" parent="."]
 

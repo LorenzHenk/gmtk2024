@@ -69,6 +69,10 @@ public partial class BasicTurret : Node2D
 
 			canFire = false;
 			delayTimer.Start();
+			var muzzleFlashSprite = GetNode<Sprite2D>("TurretSprite/Node2D/MuzzleFlashSprite");
+			muzzleFlashSprite.Visible = true;
+
+			GetTree().CreateTimer(Math.Min(delayTimer.WaitTime / 2, 0.1)).Timeout += () => muzzleFlashSprite.Visible = false;
 		}
 	}
 

@@ -7,8 +7,6 @@ public partial class HUD : CanvasLayer
 	[Signal]
 	public delegate void PlayerDamageEventHandler();
 
-
-
 	private void InitializePlayerHealth()
 	{
 		var player = GetParent<Player>();

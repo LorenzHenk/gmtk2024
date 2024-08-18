@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=14 format=3 uid="uid://bn3y3rftofn8r"]
 
 [ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
 [ext_resource type="Script" path="res://Player.cs" id="2_sk5wh"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://parwfjqekase" path="res://Asteroid.tscn" id="5_e8a5e"]
 [ext_resource type="PackedScene" uid="uid://bscofg6xc02d7" path="res://Resource.tscn" id="6_1m7ua"]
 [ext_resource type="Texture2D" uid="uid://s3pffh8p6a7d" path="res://resources/burst/fireball2.png" id="6_itfqs"]
+[ext_resource type="AudioStream" uid="uid://bni2now5ew76k" path="res://resources/thruster.wav" id="7_xc3pe"]
+[ext_resource type="AudioStream" uid="uid://b4njvclhur08d" path="res://resources/main_theme.wav" id="11_x516m"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qdkeg"]
 radius = 43.5
@@ -37,11 +39,12 @@ repeat_size = Vector2(2048, 1536)
 texture = ExtResource("1_cajvu")
 centered = false
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("thrusterSound")]
 position = Vector2(578, 325)
 rotation = -1.5708
 script = ExtResource("2_sk5wh")
 RotationSpeed = 5.0
+thrusterSound = NodePath("AudioStreamPlayer2D")
 
 [node name="HUD" type="CanvasLayer" parent="Player"]
 script = ExtResource("3_jux3f")
@@ -65,6 +68,15 @@ scale = Vector2(3.5, 3.5)
 sprite_frames = SubResource("SpriteFrames_wxs6c")
 animation = &"burst"
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player"]
+stream = ExtResource("7_xc3pe")
+volume_db = -15.0
+
 [node name="Spawner" type="Node2D" parent="."]
 script = ExtResource("4_nj4ko")
 Scenes = [ExtResource("5_e8a5e"), ExtResource("6_1m7ua")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_x516m")
+volume_db = -25.0
+autoplay = true

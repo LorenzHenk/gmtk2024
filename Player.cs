@@ -13,6 +13,9 @@ public partial class Player : CharacterBody2D
 
     [Export]
     public int Health {get;set;} = 3;
+    
+    [Export]
+    public AudioStreamPlayer2D thrusterSound;
 
     private const int DefaultPlayerDamage = 1;
     private const float RotationThreshold = 50f;
@@ -21,6 +24,7 @@ public partial class Player : CharacterBody2D
     private Timer damageTimer;
     private AnimatedSprite2D burst;
     public bool Damaged = false;
+    private bool soundPlaying = false;
 
     public void GetInput(float delta)
     {
@@ -30,12 +34,23 @@ public partial class Player : CharacterBody2D
         {
             burst.Play();
             burst.Visible = true;
+            if(!soundPlaying || !thrusterSound.Playing) 
+            {
+                soundPlaying = true;
+                thrusterSound.Play();
+            }
+
             _velocity = _velocity.MoveToward(inputDirection * Speed, Inertia * delta);
         }
         else
         {
             burst.Stop();
             burst.Visible = false;
+            if(soundPlaying) 
+            {
+                soundPlaying = false;
+                thrusterSound.Stop();
+            }
             _velocity = _velocity.MoveToward(Vector2.Zero, Inertia * delta);
         }
 
@@ -95,7 +110,7 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-        
+
         GetInput((float)delta);
         var collision = MoveAndCollide(Velocity * (float)delta);
         

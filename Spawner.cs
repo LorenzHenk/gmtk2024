@@ -11,13 +11,15 @@ public partial class Spawner : Node2D
     public float BaseSpawnRate = 1f; // minimum object in chunk
 
     [Export]
-    public float SpaceBetweenObstacles = 500.0f; // distance between objetcs
+    public float SpaceBetweenObstacles = 400.0f; // distance between objetcs
 
 	[Export]
-	public float HeightScalingFactor = 10000f; // height/spawnrate balance factor
+	public float HeightScalingFactor = 5000f; // height/spawnrate balance factor
 
     [Export]
     public Vector2 ChunkSize = new Vector2(1000, 1000);
+
+    private float ChunkBorderPadding = 100f;
 
     private Player player;
     private Camera2D camera;
@@ -26,7 +28,7 @@ public partial class Spawner : Node2D
 	public override void _Ready()
 	{
         base._Ready();
-        
+
 		if(Scenes.Count == 0)
 		{
 			GD.PrintErr("Scene/s is null!");
@@ -87,8 +89,9 @@ public partial class Spawner : Node2D
         List<Node2D> chunk = new List<Node2D>();
         float spawnMultiplier = 1.0f + (Mathf.Abs(player.GlobalPosition.Y) / HeightScalingFactor);
         float spawnRate = BaseSpawnRate * spawnMultiplier;
-
-        for (int i = 0; i < spawnRate * 1; i++)
+        if(spawnRate > 10) spawnRate = 10;
+        
+        for (int i = 0; i < (int)spawnRate; i++)
         {
             Vector2 spawnPosition = GetSpawnPositionInChunk(chunkPosition);
 
@@ -106,10 +109,10 @@ public partial class Spawner : Node2D
         chunks[chunkPosition] = chunk;
     }
 
-    private Vector2 GetSpawnPositionInChunk(Vector2 chunkPosition)
+   private Vector2 GetSpawnPositionInChunk(Vector2 chunkPosition)
     {
-        float spawnX = chunkPosition.X * ChunkSize.X + GD.Randf() * ChunkSize.X;
-        float spawnY = chunkPosition.Y * ChunkSize.Y + GD.Randf() * ChunkSize.Y;
+        float spawnX = chunkPosition.X * ChunkSize.X + GD.Randf() * (ChunkSize.X - 2 * ChunkBorderPadding) + ChunkBorderPadding;
+        float spawnY = chunkPosition.Y * ChunkSize.Y + GD.Randf() * (ChunkSize.Y - 2 * ChunkBorderPadding) + ChunkBorderPadding;
         return new Vector2(spawnX, spawnY);
     }
 
@@ -135,27 +138,9 @@ public partial class Spawner : Node2D
 		{
 			if (gameObject != null && 
 				!gameObject.IsQueuedForDeletion() && 
-				gameObject.Position.DistanceTo(position) < SpaceBetweenObstacles)
+				gameObject.Position.DistanceTo(position) <  SpaceBetweenObstacles)
 			{
 				return false;
-			}
-		}
-
-		Vector2 playerChunk = GetChunkPosition(player.GlobalPosition);
-		foreach (var offset in new Vector2[] { new Vector2(-1, -1), new Vector2(1, 1), new Vector2(-1, 1), new Vector2(1, -1) })
-		{
-			Vector2 adjacentChunkPos = playerChunk + offset;
-			if (chunks.ContainsKey(adjacentChunkPos))
-			{
-				foreach (var gameObject in chunks[adjacentChunkPos])
-				{
-					if (gameObject != null && 
-						!gameObject.IsQueuedForDeletion() && 
-						gameObject.Position.DistanceTo(position) < SpaceBetweenObstacles)
-					{
-						return false;
-					}
-				}
 			}
 		}
 

@@ -11,13 +11,17 @@ config_version=5
 [application]
 
 config/name="gmtk2024"
-run/main_scene="res://Space.tscn"
+run/main_scene="res://SceneHandler.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 GlobalData="*res://GlobalData.cs"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [dotnet]
 

@@ -1,6 +1,5 @@
 using Godot;
-using System;
-using System.IO;
+using System.Threading.Tasks;
 
 public partial class Base : Node2D
 {
@@ -37,6 +36,14 @@ public partial class Base : Node2D
 		{
 			liftoffButton.QueueFree();
 		}
+
+
+		if (GlobalData.Instance.WaveIsActive)
+		{
+			StartWave();
+		}
+
+		GlobalData.Instance.WaveStarted += StartWave;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,8 +59,19 @@ public partial class Base : Node2D
 		var liftoffButton = GetNodeOrNull<Button>("UI/HUD/LiftoffButton");
 		if (liftoffButton != null)
 		{
-			liftoffButton.Visible = hasChildren;
+			liftoffButton.Visible = !hasChildren && !GlobalData.Instance.WaveIsActive;
 		}
+
+		if (!hasChildren && GlobalData.Instance.WaveIsActive)
+		{
+			GlobalData.Instance.EndWave();
+		}
+
+		var timeUntilNextWaveLabel = GetNodeOrNull<Label>("UI/HUD/TopBar/TimeUntilNextWaveLabel");
+		timeUntilNextWaveLabel.Text = GlobalData.Instance.GetSecondsLeftUntilNextWave() + " seconds until next wave";
+
+		var currentWaveLabel = GetNodeOrNull<Label>("UI/HUD/TopBar/CurrentWaveLabel");
+		currentWaveLabel.Text = "Current wave: " + GlobalData.Instance.CurrentWave;
 	}
 
 	public override void _Input(InputEvent @event)
@@ -118,19 +136,6 @@ public partial class Base : Node2D
 		}
 	}
 
-	public void NextWaveTimerTimeout()
-	{
-		GlobalData.Instance.NextWave();
-		GD.Print("Wave " + GlobalData.Instance.CurrentWave + " starts!");
-
-		string enemyName = "Simp";
-		var new_enemy = GD.Load<PackedScene>("res://base/enemies/" + enemyName + ".tscn").Instantiate();
-
-		var Path2D = GetNode<Path2D>("Path2D");
-
-		Path2D.AddChild(new_enemy);
-
-	}
 
 	public void EnablePlacementMode(int price, PackedScene towerScene, Vector2 mousePosition)
 	{
@@ -237,7 +242,23 @@ public partial class Base : Node2D
 			tower.built = true;
 			tower.tileLocation = item.Key;
 		}
+	}
 
+	private async void StartWave()
+	{
+		var waveInfo = GlobalData.Instance.WAVE_INFO[GlobalData.Instance.CurrentWave];
 
+		GD.Print("Wave " + GlobalData.Instance.CurrentWave + " starts!");
+
+		foreach (var unit in waveInfo.waveUnits)
+		{
+			var new_enemy = GD.Load<PackedScene>("res://base/enemies/" + unit.EnemyName + ".tscn").Instantiate();
+
+			var Path2D = GetNode<Path2D>("Path2D");
+
+			Path2D.AddChild(new_enemy);
+
+			await Task.Delay((int)(unit.secondsDelayAfterEnemySpawning * 1000));
+		}
 	}
 }

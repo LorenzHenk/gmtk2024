@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dockad4lb3amb"]
+[gd_scene load_steps=12 format=4 uid="uid://d2ufaorl8p4qd"]
 
 [ext_resource type="Texture2D" uid="uid://c6cjsas2n37" path="res://resources/base/base_tilemap.png" id="1_gljfw"]
 [ext_resource type="Script" path="res://Base.cs" id="1_gvgr3"]
@@ -98,6 +98,20 @@ theme_override_constants/separation = 32
 alignment = 2
 script = ExtResource("6_qnw4c")
 
+[node name="TimeUntilNextWaveLabel" type="Label" parent="UI/HUD/TopBar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "X seconds until next wave"
+
+[node name="CurrentWaveLabel" type="Label" parent="UI/HUD/TopBar"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Current wave: X"
+
+[node name="Spacer" type="Control" parent="UI/HUD/TopBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Money" type="RichTextLabel" parent="UI/HUD/TopBar"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 34
@@ -138,12 +152,7 @@ zoom = Vector2(0.6, 0.6)
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_lh0gb")
 
-[node name="NextWaveTimer" type="Timer" parent="."]
-wait_time = 3.0
-autostart = true
-
 [node name="Towers" type="Node" parent="."]
 
 [connection signal="pressed" from="UI/HUD/BuildTowers/BasicTurret" to="UI/HUD/BuildTowers/BasicTurret" method="EnterPlacementMode"]
 [connection signal="pressed" from="UI/HUD/TopBar/PauseButton" to="UI/HUD/TopBar" method="PauseButtonHandler"]
-[connection signal="timeout" from="NextWaveTimer" to="." method="NextWaveTimerTimeout"]

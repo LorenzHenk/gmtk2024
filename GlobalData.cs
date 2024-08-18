@@ -1,11 +1,13 @@
 using Godot;
 using Godot.Collections;
 using System;
-using System.Threading.Tasks;
 
 public partial class GlobalData : Node
 {
 	public static GlobalData Instance { get; private set; }
+
+	[Signal]
+	public delegate void WaveStartedEventHandler();
 
 	public int Resources { get; private set; } = 1000;
 
@@ -47,17 +49,44 @@ public partial class GlobalData : Node
 		towerData = new();
 
 		TOWER_INFO = new();
-		TOWER_INFO["BasicTurret"] = new TurretConfig("BasicTurret", 1, 1f, 5f, 100);
+		TOWER_INFO["BasicTurret"] = new TurretConfig("BasicTurret", 5, 1f, 5f, 100);
 
 		ENEMY_INFO = new();
-		ENEMY_INFO["Simp"] = new EnemyConfig("Simp", 2, 1, 250);
+		ENEMY_INFO["Simp"] = new EnemyConfig("Simp", 10, 1, 250);
 
 		WAVE_INFO = new();
 		var waveInfo1Units = new Array<WaveUnitConfig>();
 		waveInfo1Units.Add(new WaveUnitConfig("Simp", 0.5f));
-		waveInfo1Units.Add(new WaveUnitConfig("Simp", 1));
+		waveInfo1Units.Add(new WaveUnitConfig("Simp", 0.5f));
+		waveInfo1Units.Add(new WaveUnitConfig("Simp", 0.5f));
 		waveInfo1Units.Add(new WaveUnitConfig("Simp", 0));
-		WAVE_INFO[1] = new WaveConfig(1, 5, waveInfo1Units);
+		WAVE_INFO[1] = new WaveConfig(1, 60, waveInfo1Units);
+
+		var waveInfo2Units = new Array<WaveUnitConfig>();
+		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
+		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
+		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
+		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
+		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
+		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
+		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
+		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0));
+		WAVE_INFO[2] = new WaveConfig(2, 120, waveInfo2Units);
+
+		var waveInfo3Units = new Array<WaveUnitConfig>();
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0));
+		WAVE_INFO[3] = new WaveConfig(3, 180, waveInfo3Units);
 
 	}
 
@@ -66,7 +95,6 @@ public partial class GlobalData : Node
 	{
 	}
 
-	// TODO store what is bought
 	public void Buy(int cost)
 	{
 		if (!CanBuy(cost))
@@ -87,9 +115,10 @@ public partial class GlobalData : Node
 		Resources += amount;
 	}
 
-	public void NextWave()
+	public void EndWave()
 	{
-		CurrentWave++;
+		WaveIsActive = false;
+		StartWaveTimer();
 	}
 
 	public void TakeDamage(int damage)
@@ -145,23 +174,14 @@ public partial class GlobalData : Node
 
 		NextWaveTimer.WaitTime = waveInfo.SecondsUntilWaveStarts;
 
-
 		NextWaveTimer.Start();
 	}
 
-	public async void StartWave()
+	public void StartWave()
 	{
 		WaveIsActive = true;
 
-		var waveInfo = WAVE_INFO[CurrentWave];
-
-		foreach (var unit in waveInfo.waveUnits)
-		{
-			// TODO trigger unit spawn
-			GD.Print(unit.EnemyName);
-
-			await Task.Delay((int)(unit.secondsDelayAfterEnemySpawning * 1000));
-		}
+		EmitSignal(SignalName.WaveStarted);
 	}
 
 	public int GetSecondsLeftUntilNextWave()

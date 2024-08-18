@@ -1,13 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=15 format=3 uid="uid://bamvotw3aesl7"]
 
+[ext_resource type="Script" path="res://Space.cs" id="1_02qky"]
 [ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
 [ext_resource type="Script" path="res://Player.cs" id="2_sk5wh"]
 [ext_resource type="Script" path="res://HUD.cs" id="3_jux3f"]
 [ext_resource type="Texture2D" uid="uid://6ie1xqcxn6s8" path="res://resources/spaceship.png" id="4_k41af"]
 [ext_resource type="Script" path="res://Spawner.cs" id="4_nj4ko"]
 [ext_resource type="Texture2D" uid="uid://bblp5b63d0of3" path="res://resources/burst/fireball1.png" id="5_cw3w6"]
-[ext_resource type="PackedScene" uid="uid://parwfjqekase" path="res://Asteroid.tscn" id="5_e8a5e"]
-[ext_resource type="PackedScene" uid="uid://bscofg6xc02d7" path="res://Resource.tscn" id="6_1m7ua"]
+[ext_resource type="PackedScene" path="res://Asteroid.tscn" id="5_e8a5e"]
+[ext_resource type="PackedScene" path="res://Resource.tscn" id="6_1m7ua"]
 [ext_resource type="Texture2D" uid="uid://s3pffh8p6a7d" path="res://resources/burst/fireball2.png" id="6_itfqs"]
 [ext_resource type="AudioStream" uid="uid://bni2now5ew76k" path="res://resources/thruster.wav" id="7_xc3pe"]
 [ext_resource type="AudioStream" uid="uid://b4njvclhur08d" path="res://resources/main_theme.wav" id="11_x516m"]
@@ -31,6 +32,7 @@ animations = [{
 }]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_02qky")
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 repeat_size = Vector2(2048, 1536)
@@ -44,12 +46,28 @@ position = Vector2(578, 325)
 rotation = -1.5708
 script = ExtResource("2_sk5wh")
 RotationSpeed = 5.0
-thrusterSound = NodePath("AudioStreamPlayer2D")
+thrusterSound = NodePath("../AudioStreamPlayer")
 
 [node name="HUD" type="CanvasLayer" parent="Player"]
 script = ExtResource("3_jux3f")
 
 [node name="Hearts" type="Node2D" parent="Player/HUD"]
+
+[node name="LandButton" type="Button" parent="Player/HUD"]
+offset_left = 352.0
+offset_top = 571.0
+offset_right = 835.0
+offset_bottom = 626.0
+theme_override_font_sizes/font_size = 40
+text = "LAND AT BASE"
+
+[node name="DistanceLabel" type="RichTextLabel" parent="Player/HUD"]
+offset_left = 2.0
+offset_top = 52.0
+offset_right = 115.0
+offset_bottom = 92.0
+text = "100"
+autowrap_mode = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 0)

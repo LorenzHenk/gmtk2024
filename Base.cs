@@ -16,7 +16,26 @@ public partial class Base : Node2D
 	public override void _Ready()
 	{
 		tileMap = GetNode<TileMapLayer>("TileMapLayer");
+
+		var turretBuy = GetNode<BuyTower>("UI/HUD/BuildTowers/BasicTurret");
+		turretBuy.baseInstance = this;
+
 		// TODO load data from GlobalData.Instance.TowerData
+
+
+		// attach scene-handler to liftoff button
+		var sceneHandler = GetNodeOrNull<SceneHandler>("/root/SceneHandler");
+
+		var liftoffButton = GetNode<Button>("UI/HUD/LiftoffButton");
+		// when running scene directly for debugging purposes
+		if (sceneHandler != null)
+		{
+			liftoffButton.Pressed += sceneHandler.LiftoffButtonHandler;
+		}
+		else
+		{
+			liftoffButton.QueueFree();
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,37 +51,56 @@ public partial class Base : Node2D
 	{
 		base._Input(@event);
 
-		if (!IsInBuildMode)
-		{
-			return;
-		}
 
 		if (@event is InputEventMouse)
 		{
 			var evt = (InputEventMouse)@event;
-			if (evt.ButtonMask == MouseButtonMask.Left && @event.IsPressed())
+
+			var globalClicked = GetGlobalMousePosition();
+
+			var currentTile =
+				tileMap.LocalToMap(ToLocal(globalClicked));
+
+			var tilePosition = ToGlobal(tileMap.MapToLocal(currentTile));
+
+			if (evt.ButtonMask == MouseButtonMask.Right && @event.IsPressed())
 			{
-				var globalClicked = GetGlobalMousePosition();
+				if (GlobalData.Instance.TowerData.ContainsKey(currentTile))
+				{
+					GlobalData.Instance.RemoveTower(currentTile);
+					// remove tower instance
+					var children = GetNode("Towers").GetChildren();
+					foreach (var child in children)
+					{
+						if (((BasicTurret)child).tileLocation == currentTile)
+						{
+							child.QueueFree();
+							break;
+						}
+					}
+				}
+			}
+			else if (evt.ButtonMask == MouseButtonMask.Left && @event.IsPressed())
+			{
+				// build tower
 
-				var currentTile =
-					tileMap.LocalToMap(ToLocal(globalClicked));
-
-				var tilePosition = ToGlobal(tileMap.MapToLocal(currentTile));
-
-				GD.Print(currentTile, tilePosition);
-
-
+				if (!IsInBuildMode)
+				{
+					return;
+				}
 				if (CanPlaceTower)
 				{
 					GlobalData.Instance.AddTower("BasicTurret", currentTile);
 
-					var tower = GetNode<Node2D>("UI/TowerPreview/DraggingTower");
+					var tower = GetNode<BasicTurret>("UI/TowerPreview/DraggingTower");
 					GetNode("UI/TowerPreview").RemoveChild(tower);
 
 					GetNode("Towers").AddChild(tower);
 
 					tower.Modulate = new Color(1, 1, 1, 1);
 					tower.Position = tilePosition;
+					tower.built = true;
+					tower.tileLocation = currentTile;
 
 					CancelBuildMode();
 				}
@@ -148,8 +186,6 @@ public partial class Base : Node2D
 		var mousePosition = GetGlobalMousePosition();
 
 		var currentTile = tileMap.LocalToMap(ToLocal(mousePosition));
-
-		GD.Print(currentTile);
 
 		var tileData = tileMap.GetCellTileData(currentTile);
 

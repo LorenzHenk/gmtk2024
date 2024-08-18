@@ -5,10 +5,7 @@ using System;
 
 public partial class Simp : PathFollow2D
 {
-
-
-	[Export]
-	private float speed = 250;
+	private EnemyConfig config;
 
 	private ProgressBar bar;
 	private Control control;
@@ -16,13 +13,16 @@ public partial class Simp : PathFollow2D
 	public int HP
 	{
 		get; private set;
-	} = 2;
+	}
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		bar = GetNode<ProgressBar>("Control/ProgressBar");
 		control = GetNode<Control>("Control");
+
+		config = GlobalData.Instance.ENEMY_INFO["Simp"];
+		HP = config.StartHP;
 		bar.MaxValue = HP;
 		UpdateHPDisplay();
 	}
@@ -30,7 +30,7 @@ public partial class Simp : PathFollow2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
-		Progress += speed * (float)delta;
+		Progress += config.Speed * (float)delta;
 
 		if (ProgressRatio == 1)
 		{
@@ -39,16 +39,11 @@ public partial class Simp : PathFollow2D
 			QueueFree();
 		}
 
-		if (ProgressRatio > 0.25 && HP == 2)
-		{
-			TakeDamage(1);
-		}
-
 		// bar should always be on top
 		control.Rotation = -Rotation;
 	}
 
-	private void TakeDamage(int damage)
+	public void TakeDamage(int damage)
 	{
 		HP -= damage;
 		if (HP <= 0)

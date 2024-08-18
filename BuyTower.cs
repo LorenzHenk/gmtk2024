@@ -12,6 +12,9 @@ public partial class BuyTower : TextureButton
 	[Export]
 	public PackedScene towerScene;
 
+	[Export]
+	public Base baseInstance;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -29,7 +32,7 @@ public partial class BuyTower : TextureButton
 		var mousePosition = GetGlobalMousePosition();
 
 
-		GetNode<Base>("/root/Base").EnablePlacementMode(Price, towerScene, mousePosition);
+		baseInstance.EnablePlacementMode(Price, towerScene, mousePosition);
 
 	}
 }

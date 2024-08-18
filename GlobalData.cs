@@ -19,6 +19,9 @@ public partial class GlobalData : Node
 	} = 100;
 
 
+	public Dictionary<string, TurretConfig> TOWER_INFO;
+	public Dictionary<string, EnemyConfig> ENEMY_INFO;
+
 	// store all towers, positions and upgrades
 	private Dictionary<Vector2, string> towerData;
 
@@ -30,7 +33,14 @@ public partial class GlobalData : Node
 	{
 		// singleton can now be accessed everywhere via GlobalData.Instance
 		Instance = this;
-		towerData = new Dictionary<Vector2, string>();
+		towerData = new();
+
+		TOWER_INFO = new();
+		TOWER_INFO["BasicTurret"] = new TurretConfig("BasicTurret", 1, 1f, 5f, 100);
+
+		ENEMY_INFO = new();
+		ENEMY_INFO["Simp"] = new EnemyConfig("Simp", 2, 1, 250);
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -76,5 +86,15 @@ public partial class GlobalData : Node
 	public void AddTower(string towerName, Vector2 cellLocation)
 	{
 		TowerData.Add(cellLocation, towerName);
+	}
+
+	public void RemoveTower(Vector2 cellLocation)
+	{
+
+		const float SELL_RATIO = 0.5f;
+
+		var type = TowerData[cellLocation];
+		TowerData.Remove(cellLocation);
+		Resources += (int)(TOWER_INFO[type].Price * SELL_RATIO);
 	}
 }

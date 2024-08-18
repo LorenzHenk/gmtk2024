@@ -12,10 +12,10 @@ public partial class Player : CharacterBody2D
     public float RotationSpeed { get; set; } = 50f;
 
     [Export]
-    public int Health {get;set;} = 3;
-    
+    public int Health { get; set; } = 3;
+
     [Export]
-    public AudioStreamPlayer2D thrusterSound;
+    public AudioStreamPlayer thrusterSound;
 
     private const int DefaultPlayerDamage = 1;
     private const float RotationThreshold = 50f;
@@ -26,6 +26,10 @@ public partial class Player : CharacterBody2D
     public bool Damaged = false;
     private bool soundPlaying = false;
 
+    private RichTextLabel DistanceLabel;
+
+    private int startDistanceY;
+
     public void GetInput(float delta)
     {
         Vector2 inputDirection = Input.GetVector("left", "right", "up", "down");
@@ -34,7 +38,7 @@ public partial class Player : CharacterBody2D
         {
             burst.Play();
             burst.Visible = true;
-            if(!soundPlaying || !thrusterSound.Playing) 
+            if (!soundPlaying || !thrusterSound.Playing)
             {
                 soundPlaying = true;
                 thrusterSound.Play();
@@ -46,7 +50,7 @@ public partial class Player : CharacterBody2D
         {
             burst.Stop();
             burst.Visible = false;
-            if(soundPlaying) 
+            if (soundPlaying)
             {
                 soundPlaying = false;
                 thrusterSound.Stop();
@@ -67,7 +71,7 @@ public partial class Player : CharacterBody2D
 
     public void Damage(int amount)
     {
-        if(amount <= -1)
+        if (amount <= -1)
         {
             amount = DefaultPlayerDamage;
         }
@@ -77,7 +81,7 @@ public partial class Player : CharacterBody2D
 
     private bool CheckPlayerHealth()
     {
-        if(Health <= 0)
+        if (Health <= 0)
         {
             // TODO: restart level / game?
             GD.Print("Player died");
@@ -87,7 +91,7 @@ public partial class Player : CharacterBody2D
         return true;
     }
 
-	private void OnDamageTimerTimeout()
+    private void OnDamageTimerTimeout()
     {
         Damaged = false;
     }
@@ -105,6 +109,27 @@ public partial class Player : CharacterBody2D
         AddChild(damageTimer);
 
         burst = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
+        DistanceLabel = GetNode<RichTextLabel>("HUD/DistanceLabel");
+
+        startDistanceY = (int)GlobalPosition.Y;
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        var distance = GetDistance();
+
+        DistanceLabel.Text = distance.ToString();
+
+
+
+        var landButton = GetNodeOrNull<Button>("HUD/LandButton");
+        if (landButton != null)
+        {
+            landButton.Visible = distance < 15;
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -113,20 +138,20 @@ public partial class Player : CharacterBody2D
 
         GetInput((float)delta);
         var collision = MoveAndCollide(Velocity * (float)delta);
-        
-        if(collision != null)
+
+        if (collision != null)
         {
             Node collidedObject = collision.GetCollider() as Node;
 
-            if(!CheckPlayerHealth())
+            if (!CheckPlayerHealth())
             {
                 return;
             }
-            else if(collidedObject.IsInGroup("Asteroids") && Damaged)
+            else if (collidedObject.IsInGroup("Asteroids") && Damaged)
             {
                 return;
             }
-            else if(collidedObject.IsInGroup("Asteroids") && !Damaged)
+            else if (collidedObject.IsInGroup("Asteroids") && !Damaged)
             {
                 ((Asteroid)collidedObject)?.EmitSignal(Asteroid.SignalName.PlayerCollision);
                 ((HUD)GetNode<CanvasLayer>("HUD"))?.EmitSignal(HUD.SignalName.PlayerDamage);
@@ -134,10 +159,15 @@ public partial class Player : CharacterBody2D
                 Damaged = true;
                 damageTimer.Start();
             }
-            else if(collidedObject.IsInGroup("Resources"))
+            else if (collidedObject.IsInGroup("Resources"))
             {
                 ((Resource)collidedObject)?.EmitSignal(Resource.SignalName.PlayerCollision);
             }
         }
+    }
+
+    private int GetDistance()
+    {
+        return (startDistanceY - (int)GlobalPosition.Y) / 100;
     }
 }

@@ -6,15 +6,13 @@
 [sub_resource type="SphereMesh" id="SphereMesh_4bo48"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_avroo"]
-radius = 39.0128
+radius = 40.0
 
 [node name="BasicTurret" type="Node2D"]
 script = ExtResource("1_kbele")
-Damage = 1
-Range = 5
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-scale = Vector2(78, 78)
+scale = Vector2(80, 80)
 mesh = SubResource("SphereMesh_4bo48")
 
 [node name="TurretSprite" type="Sprite2D" parent="."]
@@ -28,7 +26,9 @@ position = Vector2(31, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_avroo")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-visible = false
-color = Color(0.956264, 0.626438, 0.572784, 1)
-polygon = PackedVector2Array(0, 0)
+[node name="ShootingDelayTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="Area2D" to="." method="BodyEnteredHandler"]
+[connection signal="body_exited" from="Area2D" to="." method="BodyExitedHandler"]
+[connection signal="timeout" from="ShootingDelayTimer" to="." method="DelayTimerDoneHandler"]

@@ -21,7 +21,8 @@ public partial class SceneHandler : Node
 
 	public void NewGameHandler()
 	{
-		GetNode("MainMenu").QueueFree();
+		RemoveCurrentScene();
+
 		var gameScene = GD.Load<PackedScene>("res://Space.tscn").Instantiate();
 		AddChild(gameScene);
 	}
@@ -30,7 +31,8 @@ public partial class SceneHandler : Node
 	// TODO remove
 	public void DebugBaseHandler()
 	{
-		GetNode("MainMenu").QueueFree();
+		RemoveCurrentScene();
+
 		var gameScene = GD.Load<PackedScene>("res://Base.tscn").Instantiate();
 		AddChild(gameScene);
 	}
@@ -38,5 +40,30 @@ public partial class SceneHandler : Node
 	public void QuitHandler()
 	{
 		GetTree().Quit();
+	}
+
+	private void RemoveCurrentScene()
+	{
+
+		foreach (var child in GetChildren())
+		{
+			child.QueueFree();
+		}
+	}
+
+	public void LiftoffButtonHandler()
+	{
+		RemoveCurrentScene();
+
+		var gameScene = GD.Load<PackedScene>("res://Space.tscn").Instantiate();
+		AddChild(gameScene);
+	}
+
+	public void BackToBase()
+	{
+		RemoveCurrentScene();
+
+		var gameScene = GD.Load<PackedScene>("res://Base.tscn").Instantiate();
+		AddChild(gameScene);
 	}
 }

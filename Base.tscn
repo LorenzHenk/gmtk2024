@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://d2ufaorl8p4qd"]
+[gd_scene load_steps=12 format=4 uid="uid://dockad4lb3amb"]
 
 [ext_resource type="Texture2D" uid="uid://c6cjsas2n37" path="res://resources/base/base_tilemap.png" id="1_gljfw"]
 [ext_resource type="Script" path="res://Base.cs" id="1_gvgr3"]

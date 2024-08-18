@@ -14,7 +14,7 @@ public partial class Space : Node2D
 		// when running scene directly for debugging purposes
 		if (sceneHandler != null)
 		{
-			landButton.Pressed += sceneHandler.BackToBase;
+			landButton.Pressed += this.BackToBase;
 		}
 		else
 		{
@@ -25,5 +25,17 @@ public partial class Space : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+	}
+
+	public void BackToBase()
+	{
+		var sceneHandler = GetNodeOrNull<SceneHandler>("/root/SceneHandler");
+		var player = GetNodeOrNull<Player>("Player");
+		
+		if(sceneHandler != null && player != null)
+		{
+			GlobalData.Instance.AddResources(player.CurrentResources);
+			sceneHandler.BackToBase();
+		}
 	}
 }

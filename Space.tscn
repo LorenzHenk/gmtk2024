@@ -42,7 +42,7 @@ texture = ExtResource("1_cajvu")
 centered = false
 
 [node name="Player" type="CharacterBody2D" parent="." node_paths=PackedStringArray("thrusterSound")]
-position = Vector2(578, 325)
+position = Vector2(576, 324)
 rotation = -1.5708
 script = ExtResource("2_sk5wh")
 RotationSpeed = 5.0
@@ -62,12 +62,30 @@ theme_override_font_sizes/font_size = 40
 text = "LAND AT BASE"
 
 [node name="DistanceLabel" type="RichTextLabel" parent="Player/HUD"]
-offset_left = 2.0
-offset_top = 52.0
-offset_right = 115.0
-offset_bottom = 92.0
-text = "100"
+offset_left = 32.0
+offset_top = 64.0
+offset_right = 182.0
+offset_bottom = 89.0
+text = "Distance: 10000"
 autowrap_mode = 0
+
+[node name="ProgressBar" type="ProgressBar" parent="Player/HUD"]
+modulate = Color(0.25098, 0.878431, 0.25098, 1)
+offset_left = 32.0
+offset_top = 617.0
+offset_right = 552.0
+offset_bottom = 642.0
+rotation = -1.5708
+step = 1.0
+value = 50.0
+show_percentage = false
+
+[node name="ResourceLabel" type="RichTextLabel" parent="Player/HUD"]
+offset_left = 1002.0
+offset_top = 64.0
+offset_right = 1152.0
+offset_bottom = 89.0
+text = "Resources: 100000"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 0)

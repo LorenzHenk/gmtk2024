@@ -97,8 +97,13 @@ public partial class Spawner : Node2D
 
             if (IsPositionValid(spawnPosition, chunk))
             {
-				var scene = (PackedScene)Scenes[Math.Abs((int)GD.Randi()) % Scenes.Count];
-                var gameObject = (Node2D)scene.Instantiate();
+                var scene = (PackedScene)Scenes[Math.Abs((int)GD.Randi()) % Scenes.Count];
+                if(Math.Abs(player.Position.Y) < 2 * ChunkSize.Y)
+                {
+                    scene = (PackedScene)Scenes[0]; // spawn only astros
+                }
+
+				var gameObject = (Node2D)scene.Instantiate();
                 gameObject.Position = spawnPosition;         
 				gameObject.TreeExited += () => OnGameObjectDeleted(gameObject);
 				AddChild(gameObject);

@@ -17,18 +17,105 @@ public partial class Player : CharacterBody2D
     [Export]
     public AudioStreamPlayer thrusterSound;
 
+    public int CurrentResources = 0;
+    public bool Damaged = false;
+
+    private int goal;
     private const int DefaultPlayerDamage = 1;
     private const float RotationThreshold = 50f;
     private Camera2D _camera;
     private Vector2 _velocity = Vector2.Zero;
     private Timer damageTimer;
     private AnimatedSprite2D burst;
-    public bool Damaged = false;
     private bool soundPlaying = false;
-
     private RichTextLabel DistanceLabel;
-
+    private ProgressBar DistanceProgressBar;
     private int startDistanceY;
+    private RichTextLabel ResourceLabel;
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+        goal = 1000 * GlobalData.Instance.SpaceGoal;
+
+        damageTimer = new Timer
+        {
+            WaitTime = 1.0f,  //in seconds
+            OneShot = true
+        };
+        damageTimer.Connect("timeout", new Callable(this, nameof(OnDamageTimerTimeout)));
+        AddChild(damageTimer);
+
+        burst = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+
+        DistanceLabel = GetNode<RichTextLabel>("HUD/DistanceLabel");
+
+        DistanceProgressBar = GetNode<ProgressBar>("./HUD/ProgressBar");
+        DistanceProgressBar.MaxValue = goal;
+
+        ResourceLabel = GetNode<RichTextLabel>("HUD/ResourceLabel");
+
+        startDistanceY = (int)GlobalPosition.Y;
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        var distance = GetDistance();
+
+        DistanceLabel.Text = "Distance: " + (distance / 100).ToString();
+        DistanceProgressBar.Value = distance;
+        ResourceLabel.Text = "Resources: " + CurrentResources;
+        var landButton = GetNodeOrNull<Button>("HUD/LandButton");
+        if (landButton != null)
+        {
+            landButton.Visible = distance < 500;
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+
+        GetInput((float)delta);
+        var collision = MoveAndCollide(Velocity * (float)delta);
+        if(Position.Y > 500)
+        {
+            Position = new Vector2(Position.X, 500);
+        }
+
+        if (collision != null)
+        {
+            Node collidedObject = collision.GetCollider() as Node;
+
+            if (!CheckPlayerHealth())
+            {
+                var sceneHandler = GetNodeOrNull<SceneHandler>("/root/SceneHandler");
+                sceneHandler.BackToBase();
+                return;
+            }
+            else if (collidedObject.IsInGroup("Asteroids") && Damaged)
+            {
+                return;
+            }
+            else if (collidedObject.IsInGroup("Asteroids") && !Damaged)
+            {
+                ((Asteroid)collidedObject)?.EmitSignal(Asteroid.SignalName.PlayerCollision);
+                ((HUD)GetNode<CanvasLayer>("HUD"))?.EmitSignal(HUD.SignalName.PlayerDamage);
+                Damage(1);
+                Damaged = true;
+                damageTimer.Start();
+            }
+            else if (collidedObject.IsInGroup("Resources"))
+            {
+                ((Resource)collidedObject)?.EmitSignal(Resource.SignalName.PlayerCollision);
+                CurrentResources += 100;
+            }
+        }
+    }
+
 
     public void GetInput(float delta)
     {
@@ -76,6 +163,7 @@ public partial class Player : CharacterBody2D
             amount = DefaultPlayerDamage;
         }
 
+        CurrentResources = CurrentResources <= 50 ? 0 : CurrentResources - 50;
         Health -= amount;
     }
 
@@ -83,8 +171,6 @@ public partial class Player : CharacterBody2D
     {
         if (Health <= 0)
         {
-            // TODO: restart level / game?
-            GD.Print("Player died");
             return false;
         }
 
@@ -96,78 +182,8 @@ public partial class Player : CharacterBody2D
         Damaged = false;
     }
 
-    public override void _Ready()
-    {
-        base._Ready();
-
-        damageTimer = new Timer
-        {
-            WaitTime = 1.0f,  //in seconds
-            OneShot = true
-        };
-        damageTimer.Connect("timeout", new Callable(this, nameof(OnDamageTimerTimeout)));
-        AddChild(damageTimer);
-
-        burst = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-
-        DistanceLabel = GetNode<RichTextLabel>("HUD/DistanceLabel");
-
-        startDistanceY = (int)GlobalPosition.Y;
-    }
-
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
-
-        var distance = GetDistance();
-
-        DistanceLabel.Text = distance.ToString();
-
-
-
-        var landButton = GetNodeOrNull<Button>("HUD/LandButton");
-        if (landButton != null)
-        {
-            landButton.Visible = distance < 15;
-        }
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
-
-        GetInput((float)delta);
-        var collision = MoveAndCollide(Velocity * (float)delta);
-
-        if (collision != null)
-        {
-            Node collidedObject = collision.GetCollider() as Node;
-
-            if (!CheckPlayerHealth())
-            {
-                return;
-            }
-            else if (collidedObject.IsInGroup("Asteroids") && Damaged)
-            {
-                return;
-            }
-            else if (collidedObject.IsInGroup("Asteroids") && !Damaged)
-            {
-                ((Asteroid)collidedObject)?.EmitSignal(Asteroid.SignalName.PlayerCollision);
-                ((HUD)GetNode<CanvasLayer>("HUD"))?.EmitSignal(HUD.SignalName.PlayerDamage);
-                Damage(1);
-                Damaged = true;
-                damageTimer.Start();
-            }
-            else if (collidedObject.IsInGroup("Resources"))
-            {
-                ((Resource)collidedObject)?.EmitSignal(Resource.SignalName.PlayerCollision);
-            }
-        }
-    }
-
     private int GetDistance()
     {
-        return (startDistanceY - (int)GlobalPosition.Y) / 100;
+        return startDistanceY - (int)GlobalPosition.Y;
     }
 }

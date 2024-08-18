@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bscofg6xc02d7"]
+
+[ext_resource type="Script" path="res://Resource.cs" id="1_xmibl"]
+[ext_resource type="Texture2D" uid="uid://b3jytqotvpeeq" path="res://resources/heart.png" id="1_yyxef"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xreif"]
+radius = 18.5068
+
+[node name="Resource" type="StaticBody2D" groups=["Resources"]]
+scale = Vector2(2, 2)
+script = ExtResource("1_xmibl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_yyxef")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 1)
+shape = SubResource("CircleShape2D_xreif")

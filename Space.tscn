@@ -1,12 +1,32 @@
-[gd_scene load_steps=6 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=12 format=3 uid="uid://bn3y3rftofn8r"]
 
 [ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
 [ext_resource type="Script" path="res://Player.cs" id="2_sk5wh"]
-[ext_resource type="PackedScene" uid="uid://parwfjqekase" path="res://asteroid.tscn" id="3_jh5ql"]
 [ext_resource type="Script" path="res://HUD.cs" id="3_jux3f"]
+[ext_resource type="Texture2D" uid="uid://6ie1xqcxn6s8" path="res://resources/spaceship.png" id="4_k41af"]
+[ext_resource type="Script" path="res://Spawner.cs" id="4_nj4ko"]
+[ext_resource type="Texture2D" uid="uid://bblp5b63d0of3" path="res://resources/burst/fireball1.png" id="5_cw3w6"]
+[ext_resource type="PackedScene" uid="uid://parwfjqekase" path="res://Asteroid.tscn" id="5_e8a5e"]
+[ext_resource type="PackedScene" uid="uid://bscofg6xc02d7" path="res://Resource.tscn" id="6_1m7ua"]
+[ext_resource type="Texture2D" uid="uid://s3pffh8p6a7d" path="res://resources/burst/fireball2.png" id="6_itfqs"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ku01d"]
-size = Vector2(109, 44)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qdkeg"]
+radius = 43.5
+height = 93.9999
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wxs6c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_cw3w6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_itfqs")
+}],
+"loop": true,
+"name": &"burst",
+"speed": 6.0
+}]
 
 [node name="Node2D" type="Node2D"]
 
@@ -28,20 +48,23 @@ script = ExtResource("3_jux3f")
 
 [node name="Hearts" type="Node2D" parent="Player/HUD"]
 
-[node name="Polygon2D" type="Polygon2D" parent="Player"]
-polygon = PackedVector2Array(-53, 21, 53, 0, -53, -21)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 0)
-shape = SubResource("RectangleShape2D_ku01d")
+shape = SubResource("CapsuleShape2D_qdkeg")
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+position_smoothing_speed = 10.0
 
-[node name="Asteroid2" parent="." instance=ExtResource("3_jh5ql")]
-position = Vector2(361, 171)
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+rotation = 1.5708
+texture = ExtResource("4_k41af")
 
-[node name="Asteroid3" parent="." instance=ExtResource("3_jh5ql")]
-position = Vector2(887, 325)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(-67, -2.00024)
+scale = Vector2(3.5, 3.5)
+sprite_frames = SubResource("SpriteFrames_wxs6c")
+animation = &"burst"
 
-[node name="Asteroid" parent="." instance=ExtResource("3_jh5ql")]
-position = Vector2(231, 276)
+[node name="Spawner" type="Node2D" parent="."]
+script = ExtResource("4_nj4ko")
+Scenes = [ExtResource("5_e8a5e"), ExtResource("6_1m7ua")]

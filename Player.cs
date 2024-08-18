@@ -19,6 +19,7 @@ public partial class Player : CharacterBody2D
     private Camera2D _camera;
     private Vector2 _velocity = Vector2.Zero;
     private Timer damageTimer;
+    private AnimatedSprite2D burst;
     public bool Damaged = false;
 
     public void GetInput(float delta)
@@ -27,10 +28,14 @@ public partial class Player : CharacterBody2D
 
         if (inputDirection != Vector2.Zero)
         {
+            burst.Play();
+            burst.Visible = true;
             _velocity = _velocity.MoveToward(inputDirection * Speed, Inertia * delta);
         }
         else
         {
+            burst.Stop();
+            burst.Visible = false;
             _velocity = _velocity.MoveToward(Vector2.Zero, Inertia * delta);
         }
 
@@ -75,6 +80,7 @@ public partial class Player : CharacterBody2D
     public override void _Ready()
     {
         base._Ready();
+
         damageTimer = new Timer
         {
             WaitTime = 1.0f,  //in seconds
@@ -82,6 +88,8 @@ public partial class Player : CharacterBody2D
         };
         damageTimer.Connect("timeout", new Callable(this, nameof(OnDamageTimerTimeout)));
         AddChild(damageTimer);
+
+        burst = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -99,7 +107,7 @@ public partial class Player : CharacterBody2D
             {
                 return;
             }
-            if(collidedObject.IsInGroup("Asteroids") && Damaged)
+            else if(collidedObject.IsInGroup("Asteroids") && Damaged)
             {
                 return;
             }
@@ -110,6 +118,10 @@ public partial class Player : CharacterBody2D
                 Damage(1);
                 Damaged = true;
                 damageTimer.Start();
+            }
+            else if(collidedObject.IsInGroup("Resources"))
+            {
+                ((Resource)collidedObject)?.EmitSignal(Resource.SignalName.PlayerCollision);
             }
         }
     }

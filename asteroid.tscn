@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://parwfjqekase"]
+[gd_scene load_steps=10 format=3 uid="uid://parwfjqekase"]
 
 [ext_resource type="Script" path="res://Asteroid.cs" id="1_8qcq3"]
 [ext_resource type="Texture2D" uid="uid://3ounbgnsyuxc" path="res://resources/asteroid.png" id="2_0w0nl"]
@@ -8,9 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://dggpbtmujgnq" path="res://resources/asteroid_explosion/explosion_3.png" id="6_lslph"]
 [ext_resource type="Texture2D" uid="uid://cr6k7hbbstcik" path="res://resources/asteroid_explosion/explosion_4.png" id="7_0lqju"]
 [ext_resource type="Texture2D" uid="uid://bpe5bmfg746jb" path="res://resources/asteroid_explosion/explosion_5.png" id="8_q8xij"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_5ij86"]
-radius = 70.1783
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ax4t5"]
 animations = [{
@@ -38,16 +35,13 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="Asteroid" type="RigidBody2D" groups=["Asteroids"]]
+[node name="Asteroid" type="StaticBody2D" groups=["Asteroids"]]
+scale = Vector2(2.75, 2.75)
 collision_mask = 0
-gravity_scale = 0.0
 script = ExtResource("1_8qcq3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_0w0nl")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_5ij86")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
@@ -56,5 +50,9 @@ sprite_frames = SubResource("SpriteFrames_ax4t5")
 animation = &"explode"
 frame = 2
 frame_progress = 0.00586676
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(1.01, 1.01)
+polygon = PackedVector2Array(-75.2727, -0.363636, -75.6364, -14.9091, -65.8182, -30.1818, -60.7273, -35.2727, -40.3636, -50.5455, -20.7273, -60.3636, 4.72727, -60.3636, 30.1818, -50.5455, 40.3636, -45.4545, 70.1818, -5.45455, 75.2727, 4.72727, 75.2727, 20, 70.1818, 29.8182, 50.1818, 50.1818, 34.9091, 60.3636, 24.7273, 65.4545, -10.1818, 65.4545, -40, 54.9091, -50.1818, 49.8182, -54.9091, 44.7273, -60, 34.5455, -75.2727, 19.6364)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="PlayExplodeAnimationHandler"]

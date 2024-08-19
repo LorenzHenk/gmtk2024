@@ -6,8 +6,8 @@ public partial class SceneHandler : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GetNode("MainMenu/PanelContainer/M/VB/NewGameButton").Connect(Button.SignalName.Pressed, Callable.From(NewGameHandler));
-		GetNode("MainMenu/PanelContainer/M/VB/QuitButton").Connect(Button.SignalName.Pressed, Callable.From(QuitHandler));
+		GetNode("MainMenu/PanelContainer/VB/NewGameButton").Connect(Button.SignalName.Pressed, Callable.From(NewGameHandler));
+		GetNode("MainMenu/PanelContainer/VB/QuitButton").Connect(Button.SignalName.Pressed, Callable.From(QuitHandler));
 
 		GlobalData.Instance.WaveStarted += BackToBase;
 

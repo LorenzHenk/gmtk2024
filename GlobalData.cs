@@ -13,7 +13,7 @@ public partial class GlobalData : Node
 
 	public int ChunkSize = 1000;
 
-	public int SpaceGoal { get; private set; } = 2; // in chunks (* 1000)
+	public int SpaceGoal { get; private set; } = 50; // in chunks (* 1000)
 
 	public int CurrentWave
 	{
@@ -77,20 +77,77 @@ public partial class GlobalData : Node
 		WAVE_INFO[2] = new WaveConfig(2, 120, waveInfo2Units);
 
 		var waveInfo3Units = new Array<WaveUnitConfig>();
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0));
 		WAVE_INFO[3] = new WaveConfig(3, 180, waveInfo3Units);
 
+		var waveInfo4Units = new Array<WaveUnitConfig>();
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0));
+		WAVE_INFO[4] = new WaveConfig(4, 240, waveInfo4Units);
+
+		var waveInfo5Units = new Array<WaveUnitConfig>();
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0.05f));
+		waveInfo5Units.Add(new WaveUnitConfig("Simp", 0));
+		WAVE_INFO[5] = new WaveConfig(5, 300, waveInfo5Units);
+
+		WAVE_INFO[6] = new WaveConfig(6, 300, waveInfo5Units);
+		WAVE_INFO[7] = new WaveConfig(7, 300, waveInfo5Units);
+		WAVE_INFO[8] = new WaveConfig(8, 300, waveInfo5Units);
+		WAVE_INFO[9] = new WaveConfig(9, 300, waveInfo5Units);
+		WAVE_INFO[10] = new WaveConfig(10, 300, waveInfo5Units);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

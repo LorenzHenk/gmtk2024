@@ -131,7 +131,7 @@ offset_right = 991.0
 offset_bottom = 376.0
 theme_override_font_sizes/normal_font_size = 24
 text = "You're in space!
-Avoid asteroids, gather space drebis and land (fly to the bottom) to protect your base before the wave starts!
+Avoid asteroids, gather space debris and land (fly to the bottom) to protect your base before the wave starts!
 
 If you die or the wave starts before you're back at the base you'll lose your collected space debris and go to the base automatically.
 

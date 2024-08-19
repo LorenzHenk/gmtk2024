@@ -9,8 +9,7 @@ public partial class SceneHandler : Node
 		GetNode("MainMenu/PanelContainer/M/VB/NewGameButton").Connect(Button.SignalName.Pressed, Callable.From(NewGameHandler));
 		GetNode("MainMenu/PanelContainer/M/VB/QuitButton").Connect(Button.SignalName.Pressed, Callable.From(QuitHandler));
 
-		// TODO remove
-		GetNode("MainMenu/PanelContainer/M/VB/TempBaseButton").Connect(Button.SignalName.Pressed, Callable.From(DebugBaseHandler));
+		GlobalData.Instance.WaveStarted += BackToBase;
 
 	}
 
@@ -28,15 +27,6 @@ public partial class SceneHandler : Node
 		GlobalData.Instance.StartGame();
 	}
 
-
-	// TODO remove
-	public void DebugBaseHandler()
-	{
-		RemoveCurrentScene();
-
-		var gameScene = GD.Load<PackedScene>("res://Base.tscn").Instantiate();
-		AddChild(gameScene);
-	}
 
 	public void QuitHandler()
 	{
@@ -62,6 +52,11 @@ public partial class SceneHandler : Node
 
 	public void BackToBase()
 	{
+		if (GetChild(0) is Base)
+		{
+			return;
+		}
+
 		RemoveCurrentScene();
 
 		var gameScene = GD.Load<PackedScene>("res://Base.tscn").Instantiate();

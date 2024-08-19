@@ -40,11 +40,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "New game"
 
-[node name="TempBaseButton" type="Button" parent="PanelContainer/M/VB"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Debug go to base"
-
 [node name="QuitButton" type="Button" parent="PanelContainer/M/VB"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40

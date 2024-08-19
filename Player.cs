@@ -123,7 +123,8 @@ public partial class Player : CharacterBody2D
             else if (collidedObject.IsInGroup("Resources"))
             {
                 ((Resource)collidedObject)?.EmitSignal(Resource.SignalName.PlayerCollision);
-                CurrentResources += 100;
+                CurrentResources += GlobalData.Instance.ResourceAmount;
+                GlobalData.Instance.ResourcesGathered += GlobalData.Instance.ResourceAmount;
             }
         }
     }
@@ -197,5 +198,11 @@ public partial class Player : CharacterBody2D
     private int GetDistance()
     {
         return startDistanceY - (int)GlobalPosition.Y;
+    }
+
+    private void OnHomeButtonHandler()
+    {
+        var sceneHandler = GetNodeOrNull<SceneHandler>("/root/SceneHandler");
+        sceneHandler.EndMenuHandler();
     }
 }

@@ -67,4 +67,12 @@ public partial class SceneHandler : Node
 		var gameScene = GD.Load<PackedScene>("res://Base.tscn").Instantiate();
 		AddChild(gameScene);
 	}
+
+	public void EndMenuHandler()
+	{
+		RemoveCurrentScene();
+
+		var gameScene = GD.Load<PackedScene>("res://EndMenu.tscn").Instantiate();
+		AddChild(gameScene);
+	}
 }

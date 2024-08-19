@@ -27,19 +27,17 @@ public partial class GlobalData : Node
 		get; private set;
 	} = 100;
 
+	public int WaveCount { get; set; } = 0;
+	public int ResourcesGathered { get; set; } = 0;
+	public int ResourceAmount = 100;
 
 	public Dictionary<string, TurretConfig> TOWER_INFO;
 	public Dictionary<string, EnemyConfig> ENEMY_INFO;
-
 	public Dictionary<int, WaveConfig> WAVE_INFO;
-
-
 
 	// store all towers, positions and upgrades
 	private Dictionary<Vector2I, string> towerData;
-
 	public Dictionary<Vector2I, string> TowerData { get { return towerData; } }
-
 	private Timer NextWaveTimer;
 
 	// TODO store all upgrades
@@ -120,6 +118,7 @@ public partial class GlobalData : Node
 	public void EndWave()
 	{
 		WaveIsActive = false;
+		WaveCount++;
 		StartWaveTimer();
 	}
 

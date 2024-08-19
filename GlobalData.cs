@@ -11,7 +11,9 @@ public partial class GlobalData : Node
 
 	public int Resources { get; private set; } = 1000;
 
-	public int SpaceGoal { get; private set; } = 100; // in chunks (* 1000)
+	public int ChunkSize = 1000;
+
+	public int SpaceGoal { get; private set; } = 2; // in chunks (* 1000)
 
 	public int CurrentWave
 	{

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bamvotw3aesl7"]
+[gd_scene load_steps=18 format=3 uid="uid://bn3y3rftofn8r"]
 
 [ext_resource type="Script" path="res://Space.cs" id="1_02qky"]
 [ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
@@ -9,10 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://bblp5b63d0of3" path="res://resources/burst/fireball1.png" id="5_cw3w6"]
 [ext_resource type="PackedScene" uid="uid://clvtm2qmcdcy5" path="res://Asteroid.tscn" id="5_e8a5e"]
 [ext_resource type="Texture2D" uid="uid://n6cfflxxj6ha" path="res://resources/resource.png" id="5_r21ef"]
-[ext_resource type="PackedScene" path="res://Resource.tscn" id="6_1m7ua"]
+[ext_resource type="PackedScene" uid="uid://bscofg6xc02d7" path="res://Resource.tscn" id="6_1m7ua"]
 [ext_resource type="Texture2D" uid="uid://s3pffh8p6a7d" path="res://resources/burst/fireball2.png" id="6_itfqs"]
 [ext_resource type="AudioStream" uid="uid://bni2now5ew76k" path="res://resources/thruster.wav" id="7_xc3pe"]
 [ext_resource type="AudioStream" uid="uid://b4njvclhur08d" path="res://resources/main_theme.wav" id="11_x516m"]
+[ext_resource type="Texture2D" uid="uid://bq7ax40askgvc" path="res://resources/home_planet.png" id="14_5eohv"]
+[ext_resource type="Script" path="res://HomePlanet.cs" id="15_1w7bk"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qdkeg"]
 radius = 43.5
@@ -106,6 +108,15 @@ size_flags_vertical = 4
 texture = ExtResource("5_r21ef")
 stretch_mode = 2
 
+[node name="HomeButton" type="Button" parent="Player/HUD"]
+visible = false
+offset_left = 352.0
+offset_top = 571.0
+offset_right = 835.0
+offset_bottom = 634.0
+theme_override_font_sizes/font_size = 40
+text = "LAND AT HOME"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 0)
 shape = SubResource("CapsuleShape2D_qdkeg")
@@ -135,3 +146,9 @@ Scenes = [ExtResource("5_e8a5e"), ExtResource("6_1m7ua")]
 stream = ExtResource("11_x516m")
 volume_db = -25.0
 autoplay = true
+
+[node name="HomePlanetSprite" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("14_5eohv")
+script = ExtResource("15_1w7bk")

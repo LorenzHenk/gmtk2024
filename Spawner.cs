@@ -16,13 +16,11 @@ public partial class Spawner : Node2D
 	[Export]
 	public float HeightScalingFactor = 5000f; // height/spawnrate balance factor
 
-    [Export]
-    public Vector2 ChunkSize = new Vector2(1000, 1000);
+    public Vector2 ChunkSize; 
 
     private float ChunkBorderPadding = 100f;
 
     private Player player;
-    private Camera2D camera;
     private Dictionary<Vector2, List<Node2D>> chunks = new Dictionary<Vector2, List<Node2D>>();
 
 	public override void _Ready()
@@ -35,8 +33,8 @@ public partial class Spawner : Node2D
 			return;
 		}
 
+        ChunkSize = new Vector2(GlobalData.Instance.ChunkSize, GlobalData.Instance.ChunkSize);
 		player = GetNode<Player>("../Player");
-		camera = player.GetNode<Camera2D>("Camera2D");
 	}
 
     public override void _Process(double delta)
@@ -48,6 +46,7 @@ public partial class Spawner : Node2D
 			GD.PrintErr("Scene/s is null!");
 			return;
 		}
+
 
         UpdateChunks();
     }
@@ -81,7 +80,7 @@ public partial class Spawner : Node2D
 
     private Vector2 GetChunkPosition(Vector2 position)
     {
-        return new Vector2(Mathf.Floor(position.X / ChunkSize.X), Mathf.Floor(position.Y / ChunkSize.Y));
+        return new Vector2(Mathf.Floor(position.X / GlobalData.Instance.ChunkSize), Mathf.Floor(position.Y / GlobalData.Instance.ChunkSize));
     }
 
     private void SpawnChunk(Vector2 chunkPosition)
@@ -98,7 +97,7 @@ public partial class Spawner : Node2D
             if (IsPositionValid(spawnPosition, chunk))
             {
                 var scene = (PackedScene)Scenes[Math.Abs((int)GD.Randi()) % Scenes.Count];
-                if(Math.Abs(player.Position.Y) < 2 * ChunkSize.Y)
+                if(Math.Abs(player.Position.Y) < 2 * GlobalData.Instance.ChunkSize)
                 {
                     scene = (PackedScene)Scenes[0]; // spawn only astros
                 }
@@ -116,8 +115,8 @@ public partial class Spawner : Node2D
 
    private Vector2 GetSpawnPositionInChunk(Vector2 chunkPosition)
     {
-        float spawnX = chunkPosition.X * ChunkSize.X + GD.Randf() * (ChunkSize.X - 2 * ChunkBorderPadding) + ChunkBorderPadding;
-        float spawnY = chunkPosition.Y * ChunkSize.Y + GD.Randf() * (ChunkSize.Y - 2 * ChunkBorderPadding) + ChunkBorderPadding;
+        float spawnX = chunkPosition.X * GlobalData.Instance.ChunkSize + GD.Randf() * (GlobalData.Instance.ChunkSize - 2 * ChunkBorderPadding) + ChunkBorderPadding;
+        float spawnY = chunkPosition.Y * GlobalData.Instance.ChunkSize + GD.Randf() * (GlobalData.Instance.ChunkSize - 2 * ChunkBorderPadding) + ChunkBorderPadding;
         return new Vector2(spawnX, spawnY);
     }
 
@@ -133,8 +132,10 @@ public partial class Spawner : Node2D
 	private bool IsPositionValid(Vector2 position, List<Node2D> chunk)
 	{
 		// basically first "chunk" should be obstacle-free
-		if(-1000 < position.X && position.X < 1000 &&
-		   -1000 < position.Y && position.Y < 1000)
+		if(-GlobalData.Instance.ChunkSize < position.X && 
+           position.X < GlobalData.Instance.ChunkSize &&
+		   -GlobalData.Instance.ChunkSize < position.Y && 
+           position.Y < GlobalData.Instance.ChunkSize)
 		{
 			return false;
 		}

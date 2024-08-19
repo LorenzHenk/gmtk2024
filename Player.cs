@@ -37,7 +37,7 @@ public partial class Player : CharacterBody2D
     {
         base._Ready();
 
-        goal = 1000 * GlobalData.Instance.SpaceGoal;
+        goal = GlobalData.Instance.ChunkSize * GlobalData.Instance.SpaceGoal;
 
         damageTimer = new Timer
         {
@@ -73,6 +73,12 @@ public partial class Player : CharacterBody2D
         {
             landButton.Visible = distance < 500;
         }
+
+        var homeButton = GetNodeOrNull<Button>("HUD/HomeButton");
+        if (homeButton != null)
+        {
+            homeButton.Visible = distance  >= goal + GlobalData.Instance.ChunkSize * 1.0f;
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -81,9 +87,15 @@ public partial class Player : CharacterBody2D
 
         GetInput((float)delta);
         var collision = MoveAndCollide(Velocity * (float)delta);
+        
         if (Position.Y > 500)
         {
             Position = new Vector2(Position.X, 500);
+        }
+
+        if(Position.Y <= -goal - GlobalData.Instance.ChunkSize * 0.8f)
+        {
+            Position = new Vector2(Position.X, -goal - GlobalData.Instance.ChunkSize * 0.8f);
         }
 
         if (collision != null)

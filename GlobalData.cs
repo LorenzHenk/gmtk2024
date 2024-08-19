@@ -42,6 +42,9 @@ public partial class GlobalData : Node
 
 	// TODO store all upgrades
 
+	public bool TutorialSeenBase { get; set; } = false;
+	public bool TutorialSeenSpace { get; set; } = false;
+
 	public override void _Ready()
 	{
 		// singleton can now be accessed everywhere via GlobalData.Instance

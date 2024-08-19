@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bn3y3rftofn8r"]
+[gd_scene load_steps=18 format=3 uid="uid://bamvotw3aesl7"]
 
 [ext_resource type="Script" path="res://Space.cs" id="1_02qky"]
 [ext_resource type="Texture2D" uid="uid://cnbcetb5omw3x" path="res://resources/space_background.png" id="1_cajvu"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bblp5b63d0of3" path="res://resources/burst/fireball1.png" id="5_cw3w6"]
 [ext_resource type="PackedScene" uid="uid://clvtm2qmcdcy5" path="res://Asteroid.tscn" id="5_e8a5e"]
 [ext_resource type="Texture2D" uid="uid://n6cfflxxj6ha" path="res://resources/resource.png" id="5_r21ef"]
-[ext_resource type="PackedScene" uid="uid://bscofg6xc02d7" path="res://Resource.tscn" id="6_1m7ua"]
+[ext_resource type="PackedScene" path="res://Resource.tscn" id="6_1m7ua"]
 [ext_resource type="Texture2D" uid="uid://s3pffh8p6a7d" path="res://resources/burst/fireball2.png" id="6_itfqs"]
 [ext_resource type="AudioStream" uid="uid://bni2now5ew76k" path="res://resources/thruster.wav" id="7_xc3pe"]
 [ext_resource type="AudioStream" uid="uid://b4njvclhur08d" path="res://resources/main_theme.wav" id="11_x516m"]
@@ -117,6 +117,36 @@ offset_bottom = 634.0
 theme_override_font_sizes/font_size = 40
 text = "LAND AT HOME"
 
+[node name="Tutorial" type="Panel" parent="Player/HUD"]
+visible = false
+offset_left = 90.0
+offset_top = 57.0
+offset_right = 1087.0
+offset_bottom = 532.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Player/HUD/Tutorial"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 991.0
+offset_bottom = 376.0
+theme_override_font_sizes/normal_font_size = 24
+text = "You're in space!
+Avoid asteroids, gather space drebis and land to protect your base before the wave starts!
+
+If you die or the wave starts before you're back at the base you'll lose your collected space debris and go to the base automatically.
+
+Your goal is to get back to your home planet (at the top) - progress can be seen in the left slider."
+
+[node name="ContinueButton" type="Button" parent="Player/HUD/Tutorial"]
+process_mode = 3
+layout_mode = 0
+offset_left = 377.0
+offset_top = 418.0
+offset_right = 594.0
+offset_bottom = 468.0
+theme_override_font_sizes/font_size = 30
+text = "GOT IT"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 position = Vector2(-0.5, 0)
 shape = SubResource("CapsuleShape2D_qdkeg")
@@ -154,3 +184,4 @@ texture = ExtResource("14_5eohv")
 script = ExtResource("15_1w7bk")
 
 [connection signal="pressed" from="Player/HUD/HomeButton" to="Player" method="OnHomeButtonHandler"]
+[connection signal="pressed" from="Player/HUD/Tutorial/ContinueButton" to="." method="FinishTutorial"]

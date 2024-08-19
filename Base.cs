@@ -44,6 +44,11 @@ public partial class Base : Node2D
 		}
 
 		GlobalData.Instance.WaveStarted += StartWave;
+
+		if (!GlobalData.Instance.TutorialSeenBase)
+		{
+			StartTutorial();
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -260,5 +265,22 @@ public partial class Base : Node2D
 
 			await Task.Delay((int)(unit.secondsDelayAfterEnemySpawning * 1000));
 		}
+	}
+
+	private async void StartTutorial()
+	{
+		GetNode<Panel>("UI/HUD/Tutorial").Visible = true;
+
+		// to load everything before pausing
+		await Task.Delay(500);
+		GetTree().Paused = true;
+	}
+
+	private void FinishTutorial()
+	{
+		GetTree().Paused = false;
+		GetNode<Panel>("UI/HUD/Tutorial").Visible = false;
+		GlobalData.Instance.TutorialSeenBase = true;
+
 	}
 }

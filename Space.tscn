@@ -175,7 +175,6 @@ Scenes = [ExtResource("5_e8a5e"), ExtResource("6_1m7ua")]
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_x516m")
 volume_db = -25.0
-autoplay = true
 
 [node name="HomePlanetSprite" type="Sprite2D" parent="."]
 visible = false

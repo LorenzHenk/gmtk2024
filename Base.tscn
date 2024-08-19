@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://d2ufaorl8p4qd"]
+[gd_scene load_steps=13 format=4 uid="uid://dockad4lb3amb"]
 
 [ext_resource type="Texture2D" uid="uid://c6cjsas2n37" path="res://resources/base/base_tilemap.png" id="1_gljfw"]
 [ext_resource type="Script" path="res://Base.cs" id="1_gvgr3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cp83gxfkd7j5r" path="res://resources/base/towers/basic_turret.png" id="6_fdrf2"]
 [ext_resource type="Script" path="res://BuyTower.cs" id="6_fwppq"]
 [ext_resource type="Script" path="res://TopBar.cs" id="6_qnw4c"]
+[ext_resource type="Texture2D" uid="uid://6ie1xqcxn6s8" path="res://resources/spaceship.png" id="9_2tddj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qvq0m"]
 texture = ExtResource("1_gljfw")
@@ -184,6 +185,11 @@ zoom = Vector2(0.6, 0.6)
 curve = SubResource("Curve2D_lh0gb")
 
 [node name="Towers" type="Node" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1656, 564.5)
+scale = Vector2(1.75, 1.84375)
+texture = ExtResource("9_2tddj")
 
 [connection signal="pressed" from="UI/HUD/BuildTowers/BasicTurret" to="UI/HUD/BuildTowers/BasicTurret" method="EnterPlacementMode"]
 [connection signal="pressed" from="UI/HUD/TopBar/PauseButton" to="UI/HUD/TopBar" method="PauseButtonHandler"]

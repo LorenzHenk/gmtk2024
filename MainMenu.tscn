@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cicyj8wf7a757"]
+[gd_scene load_steps=3 format=3 uid="uid://cicyj8wf7a757"]
 
 [ext_resource type="Texture2D" uid="uid://son3p1dabfn3" path="res://resources/black.png" id="1_qdvom"]
+[ext_resource type="Texture2D" uid="uid://bgl5kiwcqsvyh" path="res://icon.svg" id="2_oe7mu"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -12,7 +13,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,25 +23,49 @@ grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="PanelContainer"]
 layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
 texture = ExtResource("1_qdvom")
 
-[node name="M" type="MarginContainer" parent="PanelContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 700
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 50
+offset_left = 21.0
+offset_top = 40.0
+offset_right = 650.0
+offset_bottom = 567.0
+theme_override_font_sizes/normal_font_size = 24
+text = "Oh no, you crashed your ship!
+You've built a small temporary base to take cover.
 
-[node name="VB" type="VBoxContainer" parent="PanelContainer/M"]
+To win you have to get back to your home planet.
+
+But beware, the planets natives are not fond of you being here.
+They are going to try to destroy your base.
+
+Make it back to your home planet before the natives overrun you!"
+
+[node name="VB" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
+offset_left = 700.0
+offset_top = 402.0
+offset_right = 1102.0
+offset_bottom = 598.0
 theme_override_constants/separation = 34
 
-[node name="NewGameButton" type="Button" parent="PanelContainer/M/VB"]
+[node name="NewGameButton" type="Button" parent="PanelContainer/VB"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "New game"
 
-[node name="QuitButton" type="Button" parent="PanelContainer/M/VB"]
+[node name="QuitButton" type="Button" parent="PanelContainer/VB"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Quit"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer"]
+layout_mode = 0
+offset_left = 673.0
+offset_top = 44.0
+offset_right = 1121.0
+offset_bottom = 318.0
+texture = ExtResource("2_oe7mu")

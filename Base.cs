@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 public partial class Base : Node2D
 {
 
+	private AudioStreamPlayer backgroundMusic;
+
 	private bool IsInBuildMode { get; set; }
 
 	private bool CanPlaceTower { get; set; }
@@ -14,6 +16,9 @@ public partial class Base : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		backgroundMusic = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		backgroundMusic.Play();
+
 		tileMap = GetNode<TileMapLayer>("TileMapLayer");
 
 		var turretBuy = GetNode<BuyTower>("UI/HUD/BuildTowers/BasicTurret");
@@ -54,6 +59,11 @@ public partial class Base : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if(!backgroundMusic.Playing)
+		{
+			backgroundMusic.Play();
+		}
+
 		if (IsInBuildMode)
 		{
 			UpdateTowerPlacementPreview();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://dockad4lb3amb"]
+[gd_scene load_steps=14 format=4 uid="uid://dockad4lb3amb"]
 
 [ext_resource type="Texture2D" uid="uid://c6cjsas2n37" path="res://resources/base/base_tilemap.png" id="1_gljfw"]
 [ext_resource type="Script" path="res://Base.cs" id="1_gvgr3"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://BuyTower.cs" id="6_fwppq"]
 [ext_resource type="Script" path="res://TopBar.cs" id="6_qnw4c"]
 [ext_resource type="Texture2D" uid="uid://6ie1xqcxn6s8" path="res://resources/spaceship.png" id="9_2tddj"]
+[ext_resource type="AudioStream" uid="uid://d0rve8vg8t65c" path="res://resources/base_background_music.wav" id="10_2kiw8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qvq0m"]
 texture = ExtResource("1_gljfw")
@@ -190,6 +191,10 @@ curve = SubResource("Curve2D_lh0gb")
 position = Vector2(1656, 564.5)
 scale = Vector2(1.75, 1.84375)
 texture = ExtResource("9_2tddj")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_2kiw8")
+volume_db = -25.0
 
 [connection signal="pressed" from="UI/HUD/BuildTowers/BasicTurret" to="UI/HUD/BuildTowers/BasicTurret" method="EnterPlacementMode"]
 [connection signal="pressed" from="UI/HUD/TopBar/PauseButton" to="UI/HUD/TopBar" method="PauseButtonHandler"]

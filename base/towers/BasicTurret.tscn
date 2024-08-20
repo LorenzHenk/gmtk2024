@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://5p68vch7sccg"]
+[gd_scene load_steps=7 format=3 uid="uid://5p68vch7sccg"]
 
 [ext_resource type="Texture2D" uid="uid://cp83gxfkd7j5r" path="res://resources/base/towers/basic_turret.png" id="1_f6xyw"]
 [ext_resource type="Script" path="res://base/towers/BasicTurret.cs" id="1_kbele"]
 [ext_resource type="Texture2D" uid="uid://b1a6cwm6gvfd3" path="res://resources/muzzle_flash.png" id="3_y1bqv"]
+[ext_resource type="AudioStream" uid="uid://lpwp3sicnlti" path="res://resources/canon_shooting.mp3" id="4_4q5px"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4bo48"]
 
@@ -35,6 +36,10 @@ shape = SubResource("CircleShape2D_avroo")
 
 [node name="ShootingDelayTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_4q5px")
+volume_db = -15.0
 
 [connection signal="body_entered" from="Area2D" to="." method="BodyEnteredHandler"]
 [connection signal="body_exited" from="Area2D" to="." method="BodyExitedHandler"]

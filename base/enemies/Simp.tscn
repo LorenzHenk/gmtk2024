@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://2l3q83p2yjy2"]
+[gd_scene load_steps=14 format=3 uid="uid://2l3q83p2yjy2"]
 
 [ext_resource type="Script" path="res://base/enemies/Simp.cs" id="1_mfi25"]
 [ext_resource type="Texture2D" uid="uid://ci7kdti16ry8a" path="res://resources/simp/simp1.png" id="2_p3wc8"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://buttk28dogb24" path="res://resources/simp/simp6.png" id="7_a1r8o"]
 [ext_resource type="Texture2D" uid="uid://dwci17365pl5b" path="res://resources/simp/simp7.png" id="8_d57d5"]
 [ext_resource type="Texture2D" uid="uid://bxotkjntp5q5n" path="res://resources/simp/simp8.png" id="9_1ljda"]
+[ext_resource type="AudioStream" uid="uid://cabnigpibanwy" path="res://resources/damage.mp3" id="10_v8q0i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wu6as"]
 size = Vector2(128, 128)
@@ -84,3 +85,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_n8g0g")
 show_percentage = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_v8q0i")
+volume_db = -15.0
+
+[connection signal="finished" from="AudioStreamPlayer" to="." method="Destroy"]

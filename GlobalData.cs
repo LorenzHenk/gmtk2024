@@ -9,7 +9,7 @@ public partial class GlobalData : Node
 	[Signal]
 	public delegate void WaveStartedEventHandler();
 
-	public int Resources { get; private set; } = 1000;
+	public int Resources { get; private set; } = 300;
 
 	public int ChunkSize = 1000;
 

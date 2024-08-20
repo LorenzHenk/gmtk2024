@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public partial class BasicTurret : Node2D
 {
+	private AudioStreamPlayer shootingSound;
+
 	private TurretConfig config;
 	private List<Simp> enemiesInRange;
 
@@ -25,7 +27,8 @@ public partial class BasicTurret : Node2D
 		GetNode<CollisionShape2D>("Area2D/CollisionShape2D").ApplyScale(new Vector2(config.Range, config.Range));
 		GetNode<MeshInstance2D>("MeshInstance2D").ApplyScale(new Vector2(config.Range, config.Range));
 		GetNode<MeshInstance2D>("MeshInstance2D").Modulate = new Color(0.7f, 0.7f, 0.7f, 0.1f);
-
+		shootingSound = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+		
 		delayTimer = GetNode<Timer>("ShootingDelayTimer");
 
 		delayTimer.WaitTime = config.ShotDelay;
@@ -60,6 +63,11 @@ public partial class BasicTurret : Node2D
 
 	private void Shoot()
 	{
+		if(!shootingSound.Playing)
+		{
+			shootingSound.Play();
+		}
+
 		if (selectedEnemy != null && !selectedEnemy.IsQueuedForDeletion())
 		{
 			// TODO display bullet

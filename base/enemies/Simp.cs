@@ -10,6 +10,8 @@ public partial class Simp : PathFollow2D
 	private ProgressBar bar;
 	private Control control;
 	private AnimatedSprite2D walkingAnimation;
+	private AudioStreamPlayer damageSound;
+	private bool playerDamaged = false;
 
 	public int HP
 	{
@@ -22,6 +24,7 @@ public partial class Simp : PathFollow2D
 		bar = GetNode<ProgressBar>("Control/ProgressBar");
 		control = GetNode<Control>("Control");
 		walkingAnimation = GetNode<AnimatedSprite2D>("CharacterBody2D/AnimatedSprite2D");
+		damageSound = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 
 		config = GlobalData.Instance.ENEMY_INFO["Simp"];
 		HP = config.StartHP;
@@ -38,9 +41,17 @@ public partial class Simp : PathFollow2D
 
 		if (ProgressRatio == 1)
 		{
-
-			GlobalData.Instance.TakeDamage(1);
-			QueueFree();
+			Visible = false;
+			if(!playerDamaged)
+			{
+				if(!damageSound.Playing)
+				{
+					damageSound.Play();
+				}
+			
+				playerDamaged = true;
+				GlobalData.Instance.TakeDamage(1);
+			}
 		}
 
 		// bar should always be on top
@@ -64,5 +75,10 @@ public partial class Simp : PathFollow2D
 	private void UpdateHPDisplay()
 	{
 		bar.Value = HP;
+	}
+
+	private void Destroy()
+	{
+		QueueFree();
 	}
 }

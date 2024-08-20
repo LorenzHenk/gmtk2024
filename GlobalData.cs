@@ -31,6 +31,8 @@ public partial class GlobalData : Node
 	public int ResourcesGathered { get; set; } = 0;
 	public int ResourceAmount = 100;
 
+	public int ShipHP { get; private set; } = 3;
+
 	public Dictionary<string, TurretConfig> TOWER_INFO;
 	public Dictionary<string, EnemyConfig> ENEMY_INFO;
 	public Dictionary<int, WaveConfig> WAVE_INFO;
@@ -260,5 +262,15 @@ public partial class GlobalData : Node
 	public int GetSecondsLeftUntilNextWave()
 	{
 		return (int)NextWaveTimer.TimeLeft;
+	}
+
+	public int GetUpgradeShipHPPrice()
+	{
+		return (int)Math.Pow(2, ShipHP - 2) * 100;
+	}
+
+	public void UpgradeShipHP()
+	{
+		ShipHP++;
 	}
 }

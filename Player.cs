@@ -11,8 +11,7 @@ public partial class Player : CharacterBody2D
     [Export]
     public float RotationSpeed { get; set; } = 50f;
 
-    [Export]
-    public int Health { get; set; } = 3;
+    public int Health { get; set; }
 
     [Export]
     public AudioStreamPlayer thrusterSound;
@@ -35,6 +34,8 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
+        Health = GlobalData.Instance.ShipHP;
+
         base._Ready();
 
         goal = GlobalData.Instance.ChunkSize * GlobalData.Instance.SpaceGoal;
@@ -77,7 +78,7 @@ public partial class Player : CharacterBody2D
         var homeButton = GetNodeOrNull<Button>("HUD/HomeButton");
         if (homeButton != null)
         {
-            homeButton.Visible = distance  >= goal + GlobalData.Instance.ChunkSize * 1.0f;
+            homeButton.Visible = distance >= goal + GlobalData.Instance.ChunkSize * 1.0f;
         }
     }
 
@@ -87,13 +88,13 @@ public partial class Player : CharacterBody2D
 
         GetInput((float)delta);
         var collision = MoveAndCollide(Velocity * (float)delta);
-        
+
         if (Position.Y > 500)
         {
             Position = new Vector2(Position.X, 500);
         }
 
-        if(Position.Y <= -goal - GlobalData.Instance.ChunkSize * 0.8f)
+        if (Position.Y <= -goal - GlobalData.Instance.ChunkSize * 0.8f)
         {
             Position = new Vector2(Position.X, -goal - GlobalData.Instance.ChunkSize * 0.8f);
         }

@@ -9,10 +9,9 @@ public partial class HUD : CanvasLayer
 
 	private void InitializePlayerHealth()
 	{
-		var player = GetParent<Player>();
 		var hearts = GetNode<Node2D>("HB/Hearts");
 		var heartTexture = (Texture2D)GD.Load("res://resources/heart.png");
-		for (int i = player.Health; i > 0; i--)
+		for (int i = GlobalData.Instance.ShipHP; i > 0; i--)
 		{
 			Sprite2D heart = new Sprite2D
 			{

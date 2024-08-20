@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://dockad4lb3amb"]
+[gd_scene load_steps=16 format=4 uid="uid://dockad4lb3amb"]
 
 [ext_resource type="Texture2D" uid="uid://c6cjsas2n37" path="res://resources/base/base_tilemap.png" id="1_gljfw"]
 [ext_resource type="Script" path="res://Base.cs" id="1_gvgr3"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://cp83gxfkd7j5r" path="res://resources/base/towers/basic_turret.png" id="6_fdrf2"]
 [ext_resource type="Script" path="res://BuyTower.cs" id="6_fwppq"]
 [ext_resource type="Script" path="res://TopBar.cs" id="6_qnw4c"]
+[ext_resource type="Script" path="res://ShipHp.cs" id="7_exrg5"]
+[ext_resource type="Texture2D" uid="uid://b3jytqotvpeeq" path="res://resources/heart.png" id="7_ta2bi"]
 [ext_resource type="Texture2D" uid="uid://6ie1xqcxn6s8" path="res://resources/spaceship.png" id="9_2tddj"]
 [ext_resource type="AudioStream" uid="uid://d0rve8vg8t65c" path="res://resources/base_background_music.wav" id="10_2kiw8"]
 
@@ -73,6 +75,50 @@ scale = Vector2(1.5, 1.5)
 texture = ExtResource("6_fdrf2")
 
 [node name="Price" type="RichTextLabel" parent="UI/HUD/BuildTowers/BasicTurret"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -12.0
+offset_top = -32.0
+offset_right = 18.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "XXX"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="ShipUpgrades" type="VBoxContainer" parent="UI/HUD"]
+layout_mode = 2
+offset_left = 1781.0
+offset_top = 653.0
+offset_right = 1905.0
+offset_bottom = 987.0
+
+[node name="ShipHP" type="TextureButton" parent="UI/HUD/ShipUpgrades"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+texture_normal = ExtResource("4_748hw")
+texture_disabled = ExtResource("5_jun5i")
+stretch_mode = 4
+script = ExtResource("7_exrg5")
+
+[node name="Image" type="TextureRect" parent="UI/HUD/ShipUpgrades/ShipHP"]
+layout_mode = 0
+offset_right = 86.0
+offset_bottom = 78.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("7_ta2bi")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Price" type="RichTextLabel" parent="UI/HUD/ShipUpgrades/ShipHP"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -197,5 +243,6 @@ stream = ExtResource("10_2kiw8")
 volume_db = -25.0
 
 [connection signal="pressed" from="UI/HUD/BuildTowers/BasicTurret" to="UI/HUD/BuildTowers/BasicTurret" method="EnterPlacementMode"]
+[connection signal="pressed" from="UI/HUD/ShipUpgrades/ShipHP" to="UI/HUD/ShipUpgrades/ShipHP" method="BuyShipHPHandler"]
 [connection signal="pressed" from="UI/HUD/TopBar/PauseButton" to="UI/HUD/TopBar" method="PauseButtonHandler"]
 [connection signal="pressed" from="UI/HUD/Tutorial/ContinueButton" to="." method="FinishTutorial"]

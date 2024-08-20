@@ -9,6 +9,7 @@ public partial class Simp : PathFollow2D
 
 	private ProgressBar bar;
 	private Control control;
+	private AnimatedSprite2D walkingAnimation;
 
 	public int HP
 	{
@@ -20,11 +21,14 @@ public partial class Simp : PathFollow2D
 	{
 		bar = GetNode<ProgressBar>("Control/ProgressBar");
 		control = GetNode<Control>("Control");
+		walkingAnimation = GetNode<AnimatedSprite2D>("CharacterBody2D/AnimatedSprite2D");
 
 		config = GlobalData.Instance.ENEMY_INFO["Simp"];
 		HP = config.StartHP;
 		bar.MaxValue = HP;
 		UpdateHPDisplay();
+
+		walkingAnimation.Play();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -3,8 +3,11 @@ using System;
 
 
 
-public partial class Simp : PathFollow2D
+public partial class EnemyBehavior : PathFollow2D
 {
+	[Export]
+	public string EnemyName;
+
 	private EnemyConfig config;
 
 	private ProgressBar bar;
@@ -26,7 +29,7 @@ public partial class Simp : PathFollow2D
 		walkingAnimation = GetNode<AnimatedSprite2D>("CharacterBody2D/AnimatedSprite2D");
 		damageSound = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
 
-		config = GlobalData.Instance.ENEMY_INFO["Simp"];
+		config = GlobalData.Instance.ENEMY_INFO[EnemyName];
 		HP = config.StartHP;
 		bar.MaxValue = HP;
 		UpdateHPDisplay();
@@ -42,13 +45,13 @@ public partial class Simp : PathFollow2D
 		if (ProgressRatio == 1)
 		{
 			Visible = false;
-			if(!playerDamaged)
+			if (!playerDamaged)
 			{
-				if(!damageSound.Playing)
+				if (!damageSound.Playing)
 				{
 					damageSound.Play();
 				}
-			
+
 				playerDamaged = true;
 				GlobalData.Instance.TakeDamage(1);
 			}

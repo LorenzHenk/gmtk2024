@@ -7,9 +7,9 @@ public partial class BasicTurret : Node2D
 	private AudioStreamPlayer shootingSound;
 
 	private TurretConfig config;
-	private List<Simp> enemiesInRange;
+	private List<EnemyBehavior> enemiesInRange;
 
-	private Simp selectedEnemy;
+	private EnemyBehavior selectedEnemy;
 
 	private Timer delayTimer;
 
@@ -28,12 +28,12 @@ public partial class BasicTurret : Node2D
 		GetNode<MeshInstance2D>("MeshInstance2D").ApplyScale(new Vector2(config.Range, config.Range));
 		GetNode<MeshInstance2D>("MeshInstance2D").Modulate = new Color(0.7f, 0.7f, 0.7f, 0.1f);
 		shootingSound = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
-		
+
 		delayTimer = GetNode<Timer>("ShootingDelayTimer");
 
 		delayTimer.WaitTime = config.ShotDelay;
 
-		enemiesInRange = new List<Simp>();
+		enemiesInRange = new List<EnemyBehavior>();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -63,7 +63,7 @@ public partial class BasicTurret : Node2D
 
 	private void Shoot()
 	{
-		if(!shootingSound.Playing)
+		if (!shootingSound.Playing)
 		{
 			shootingSound.Play();
 		}
@@ -86,7 +86,7 @@ public partial class BasicTurret : Node2D
 
 	private void SelectEnemy()
 	{
-		Simp bestMatch = enemiesInRange[0];
+		EnemyBehavior bestMatch = enemiesInRange[0];
 		foreach (var enemy in enemiesInRange)
 		{
 			if (enemy.ProgressRatio > bestMatch.ProgressRatio)
@@ -112,12 +112,12 @@ selectedEnemy.Position
 
 	public void BodyEnteredHandler(Node2D body)
 	{
-		enemiesInRange.Add(body.GetParent<Simp>());
+		enemiesInRange.Add(body.GetParent<EnemyBehavior>());
 	}
 
 	public void BodyExitedHandler(Node2D body)
 	{
-		enemiesInRange.Remove(body.GetParent<Simp>());
+		enemiesInRange.Remove(body.GetParent<EnemyBehavior>());
 	}
 
 	public void DelayTimerDoneHandler()

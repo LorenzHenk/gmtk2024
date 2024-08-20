@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://2l3q83p2yjy2"]
 
-[ext_resource type="Script" path="res://base/enemies/Simp.cs" id="1_mfi25"]
+[ext_resource type="Script" path="res://base/enemies/EnemyBehavior.cs" id="1_uxw4m"]
 [ext_resource type="Texture2D" uid="uid://ci7kdti16ry8a" path="res://resources/simp/simp1.png" id="2_p3wc8"]
 [ext_resource type="Texture2D" uid="uid://k407442hlp81" path="res://resources/simp/simp2.png" id="3_5ou64"]
 [ext_resource type="Texture2D" uid="uid://d0k4w6m0fqs0g" path="res://resources/simp/simp3.png" id="4_knyfe"]
@@ -52,7 +52,8 @@ bg_color = Color(1, 0, 0, 1)
 [node name="Simp" type="PathFollow2D"]
 scale = Vector2(0.4, 0.4)
 loop = false
-script = ExtResource("1_mfi25")
+script = ExtResource("1_uxw4m")
+EnemyName = "Simp"
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 

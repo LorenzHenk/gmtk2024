@@ -56,6 +56,7 @@ public partial class GlobalData : Node
 
 		ENEMY_INFO = new();
 		ENEMY_INFO["Simp"] = new EnemyConfig("Simp", 10, 1, 250);
+		ENEMY_INFO["Goblin"] = new EnemyConfig("Goblin", 20, 5, 450);
 
 		WAVE_INFO = new();
 		var waveInfo1Units = new Array<WaveUnitConfig>();
@@ -73,28 +74,32 @@ public partial class GlobalData : Node
 		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
 		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
 		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0.3f));
-		waveInfo2Units.Add(new WaveUnitConfig("Simp", 0));
+		waveInfo2Units.Add(new WaveUnitConfig("Goblin", 0));
 		WAVE_INFO[2] = new WaveConfig(2, 120, waveInfo2Units);
 
 		var waveInfo3Units = new Array<WaveUnitConfig>();
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Goblin", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
+		waveInfo3Units.Add(new WaveUnitConfig("Goblin", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
 		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0.25f));
-		waveInfo3Units.Add(new WaveUnitConfig("Simp", 0));
+		waveInfo3Units.Add(new WaveUnitConfig("Goblin", 0));
 		WAVE_INFO[3] = new WaveConfig(3, 180, waveInfo3Units);
 
 		var waveInfo4Units = new Array<WaveUnitConfig>();
-		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
-		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
+		waveInfo4Units.Add(new WaveUnitConfig("Goblin", 1));
+		waveInfo4Units.Add(new WaveUnitConfig("Goblin", 1));
+		waveInfo4Units.Add(new WaveUnitConfig("Goblin", 1));
+		waveInfo4Units.Add(new WaveUnitConfig("Goblin", 1));
+		waveInfo4Units.Add(new WaveUnitConfig("Goblin", 1));
+		waveInfo4Units.Add(new WaveUnitConfig("Goblin", 1));
+		waveInfo4Units.Add(new WaveUnitConfig("Simp", 2));
 		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
 		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
 		waveInfo4Units.Add(new WaveUnitConfig("Simp", 0.1f));
@@ -147,11 +152,12 @@ public partial class GlobalData : Node
 		WAVE_INFO[7] = new WaveConfig(7, 300, waveInfo5Units);
 		WAVE_INFO[8] = new WaveConfig(8, 300, waveInfo5Units);
 		WAVE_INFO[9] = new WaveConfig(9, 300, waveInfo5Units);
-		
-		
+
+
 		var waveInfo10Units = new Array<WaveUnitConfig>();
-		for (int i = 0; i < 150; i++) {
-			waveInfo10Units.Add(new WaveUnitConfig("Simp", 0));
+		for (int i = 0; i < 150; i++)
+		{
+			waveInfo10Units.Add(new WaveUnitConfig("Goblin", 0));
 		}
 		WAVE_INFO[10] = new WaveConfig(10, 600, waveInfo10Units);
 	}

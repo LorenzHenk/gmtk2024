@@ -59,7 +59,7 @@ public partial class Base : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if(!backgroundMusic.Playing)
+		if (!backgroundMusic.Playing)
 		{
 			backgroundMusic.Play();
 		}
@@ -282,7 +282,7 @@ public partial class Base : Node2D
 		GetNode<Panel>("UI/HUD/Tutorial").Visible = true;
 
 		// to load everything before pausing
-		await Task.Delay(500);
+		await Task.Delay(100);
 		GetTree().Paused = true;
 	}
 

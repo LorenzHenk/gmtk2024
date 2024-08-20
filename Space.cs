@@ -35,7 +35,7 @@ public partial class Space : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if(!theme.Playing)
+		if (!theme.Playing)
 		{
 			theme.Play();
 		}
@@ -58,7 +58,7 @@ public partial class Space : Node2D
 		GetNode<Panel>("Player/HUD/Tutorial").Visible = true;
 
 		// to load everything before pausing
-		await Task.Delay(500);
+		await Task.Delay(100);
 		GetTree().Paused = true;
 	}
 

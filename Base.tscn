@@ -157,7 +157,7 @@ offset_bottom = 724.0
 theme_override_font_sizes/normal_font_size = 45
 text = "You're on the ground.
 When a wave starts enemies will come from the top left and follow the road to your base. When they touch your base you lose HP.
-Buy a tower on the left side and place it anywhere in the grass. Towers cost space debris.
+Buy a tower on the left side and place it anywhere in the grass. Towers cost space debris. You can sell a tower by right-clicking, it returns 50% of the price.
 Space debris can be gathered in space.
 To go to space, press LIFTOFF (only available between waves).
 

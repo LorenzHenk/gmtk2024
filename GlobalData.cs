@@ -9,7 +9,7 @@ public partial class GlobalData : Node
 	[Signal]
 	public delegate void WaveStartedEventHandler();
 
-	public int Resources { get; private set; } = 300;
+	public int Resources { get; private set; } = 100;
 
 	public int ChunkSize = 1000;
 
@@ -147,7 +147,13 @@ public partial class GlobalData : Node
 		WAVE_INFO[7] = new WaveConfig(7, 300, waveInfo5Units);
 		WAVE_INFO[8] = new WaveConfig(8, 300, waveInfo5Units);
 		WAVE_INFO[9] = new WaveConfig(9, 300, waveInfo5Units);
-		WAVE_INFO[10] = new WaveConfig(10, 300, waveInfo5Units);
+		
+		
+		var waveInfo10Units = new Array<WaveUnitConfig>();
+		for (int i = 0; i < 150; i++) {
+			waveInfo10Units.Add(new WaveUnitConfig("Simp", 0));
+		}
+		WAVE_INFO[10] = new WaveConfig(10, 600, waveInfo10Units);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

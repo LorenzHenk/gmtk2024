@@ -20,7 +20,7 @@ public partial class GlobalData : Node
 		get; private set;
 	} = 0;
 
-	public bool WaveIsActive = true;
+	public bool WaveIsActive = false;
 
 	public int HP
 	{
